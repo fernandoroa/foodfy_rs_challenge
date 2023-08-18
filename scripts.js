@@ -91,6 +91,7 @@ document.querySelector(".close-modal").addEventListener("click", function() {
 })
 
 const initial_cards = document.querySelector('.cards')
+const allcards = document.querySelector('.allcards')
 
 /* favorites only */
 
@@ -114,6 +115,26 @@ if (initial_cards) {
   }).join("")
 }
 
+/*all dishes */
+
+if (allcards) {
+
+  allcards.innerHTML = dishes.map(item => {
+    return `
+      <div class="card" id="${item.id}">
+        <div class="card__image-container">
+          <img src="foodassets/${item.filename}" alt="${item.dishname}">
+        </div>
+        <div class="card__content">
+          <p>${item.dishname}</p>
+        </div>
+        <div class="card__info">
+          <p>${item.author}</p>
+        </div>
+      </div>
+    `
+    }).join("")
+}
 
 const cards = document.querySelectorAll('.card')
 for (let card_ready of cards) {

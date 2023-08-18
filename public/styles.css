@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Source+Sans+Pro:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Source+Sans+Pro:wght@400;700&display=swap');
 
 :root {
   --color-green: #50fa7b;
@@ -33,6 +33,7 @@ body {
 .content {
   background-color: white;
   padding-left: 230px;
+  padding-right: 230px;
   max-width: 1400px;
 }
 
@@ -122,7 +123,6 @@ footer p {
 }
 
 .paragraphs p {
-  padding-right: 230px;
   font-size:  18px;
   line-height:28px;
   font-weight: regular;
@@ -146,6 +146,107 @@ footer p {
 
 #wrapper {
   text-align: left;
+}
+
+.recipe img {
+  margin-top: 35px;
+  border-radius: 25px;
+}
+
+#recipe_title h1 {
+  font-size:36px;
+  line-height:42px;
+  text-align: center;
+  color: var(--color-black);
+  padding-top: 25px;
+}
+
+
+.recipe__section .sameline {
+  padding-top: 25px;
+  display: inline-flex;
+}
+
+.recipe__section h2 {
+  font-size:24px;
+  line-height:28px;
+  color: var(--color-black);
+  /*padding-top: 20px;*/
+}
+
+/*button */
+
+.recipe__section .sameline .button span {
+  font-size:12px;
+  line-height:28px;
+  color: #999999;
+  padding-left:20px;
+  /*padding:30px 20px 0px 50px;*/
+  font-weight: bold; /* If you want it to be bold */
+  cursor: pointer;
+}
+
+.recipe__section li {
+  font-size:18px;
+  line-height:28px;
+  color: var(--color-lighter-gray);
+  /*margin-left: 20px;*/
+}
+
+ul {
+  list-style: none; /* Remove default bullets */
+  padding-top: 15px;
+}
+
+ul li::before {
+  content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+  color: black;
+  font-weight: bold;
+  display: inline-block; /* Needed to add space between the bullet and the text */
+  width: 1em; /* Also needed for space (tweak if needed) */
+}
+
+.ingredients__content {
+visibility: visible;
+display:unset;
+}
+
+.ingredients__content.inactive {
+  display:none;
+  /*visibility: hidden;*/
+}
+
+.preparation__content {
+  visibility: visible;
+  display:unset;
+  }
+
+.preparation__content.inactive {
+    display:none;
+}
+
+.information__content {
+  visibility: visible;
+  display:unset;
+  }
+
+.information__content.inactive {
+    display:none;
+}
+
+.recipe__section p {
+  font-size:18px;
+  line-height:28px;
+  color: var(--color-lighter-gray);
+  padding-top: 25px;
+}
+
+#recipe__author {
+  padding-top: 4px;
+  font-size:20px;
+  line-height:24px;
+  text-align: center;
+  color: var(--color-lighter-gray);
 }
 
 #wrapper img {
@@ -190,8 +291,16 @@ footer p {
   padding-top: 25px;
 }
 
+.card, .cardRecipe {
+   /* background-color: var(--color-rocket);*/
+  cursor: pointer;
+  overflow: hidden;
+}
+
 .card__image-container img {
-  width:100%;
+  object-fit: cover;
+  width: 300px;
+  height: 150px;
   border-radius: 10px;
 }
 
@@ -206,82 +315,4 @@ footer p {
   font-size: 14px;
   line-height: 16px;
   opacity: 0.5;
-}
-
-.card__price {
-  background-color: var(--color-rocket);
-  filter:brightness(90%);
-  padding: 5px 20px;
-  border-radius: 20px;
-  text-align:center;
-}
-
-/* modal */
-
-.modal-overlay {
-  background-color: rgba(0,0,0,0.7);
-  width: 940px;
-  height: 100%;
-  position:fixed;
-  top: 0;
-  opacity: 0;
-  visibility: hidden;
-}
-
-.modal {
-  border-radius: 20px;
-  background-color: white;
-  width: 660px;
-  height: 413px;
-  margin: 25vh auto;
-  position: relative;
-  justify-content:center;
-    align-items:center;
-  display: flex;
-}
-
-/* X close icon */
-
-.modal .close-modal {
-  color: var(--color-light-gray);
-  position: absolute;
-  bottom: 30px;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 16px;
-  line-height: 19px;
-}
-
-.modal-overlay.active {
-  opacity: 1;
-  /* avoids X when hidden */
-  visibility: visible;
-}
-
-.modal-content img {
-  width:600px;
-  height:200px;
-  top:20px;
-  left:30px;
-  position: absolute;
-  border-radius: 25px;
-}
-
-.modal h1 {
-  color: var(--color-black);
-  bottom: 135px;
-  font-size: 24px;
-  line-height: 28px;
-  position: absolute;
-}
-
-.modal .modal-author {
-  color: var(--color-lighter-gray);
-  position: absolute;
-  bottom: 110px;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none; /*removes underline*/
-  font-size: 18px;
-  line-height: 21px;
 }

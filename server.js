@@ -38,6 +38,12 @@ server.get("/receitas", function(req,res){
   return res.render("receitas", { items:recipes} )
 })
 
+server.get("/receitas/:id", function (req, res) {
+  const recipes     = require("./data");
+  const recipeIndex = req.params.id;
+  const recipe      = recipes[recipeIndex]
+  return res.render("recipe", { item: recipe} )
+})
 
 server.listen(5012, function() {
   console.log("server ready")

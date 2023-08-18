@@ -1,0 +1,48 @@
+<script>
+  const cardsRecipes = document.querySelectorAll('.cardRecipe')
+
+  for (let card of cardsRecipes) {
+  card.addEventListener("click", function() {
+    const dishId = card.getAttribute("id")
+    window.location.href = `/receitas/${dishId}`
+  })
+}
+
+
+const ingredients__content = document.querySelector('.ingredients__content')
+const preparation__content = document.querySelector('.preparation__content')
+const information__content = document.querySelector('.information__content')
+
+var obj = {"in":ingredients__content, "pr": preparation__content, "info": information__content}
+
+const buttons = document.querySelectorAll('.button')
+
+if (buttons) {
+
+  for (let button of buttons) {
+
+  button.addEventListener("click", function() {
+
+    var parentDiv = button.parentNode.parentNode;
+    var id = parentDiv.getAttribute("id");
+
+    const bitext = button.querySelector("span").innerText
+
+    if(bitext == "ESCONDER"){
+
+        obj[id].classList.add('inactive')
+        button.querySelector("span").innerText  = "MOSTRAR"
+    } else if(bitext == "MOSTRAR") {
+        obj[id].classList.remove('inactive')
+        button.querySelector("span").innerText  = "ESCONDER"
+    }
+  })
+
+  }
+}
+
+
+
+</script>
+
+

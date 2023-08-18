@@ -30,5 +30,4 @@ https://github.com/rocketseat-education/bootcamp-launchbase-desafios-03/tree/mas
 * Use of nunjucks templates
 * Clicking in the recipe should open a new page, looking like this:  
 https://github.com/rocketseat-education/bootcamp-launchbase-desafios-03/blob/master/layouts/specs/preview/desafio-03-back-end-receitas-detalhe.png
-* Only a subset of favorite recipe should be open in the index page
-* "Buttons" (links) to show/hide details of the recipe should be added
+* "Buttons" (links) to [show/hide] [mostrar/esconder] details of the recipe should be added

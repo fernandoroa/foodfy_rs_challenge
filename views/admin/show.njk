@@ -1,0 +1,55 @@
+{% extends "./layout.njk" %}
+{% block content %}
+	<div class="recipe" id="{{ item.id }}">
+				<div class="same-line">
+						<h2>Receita: {{ item.title }}</h2>
+						<a href="/admin/recipes/{{ item.id }}/edit" class="button">Editar receita</a>
+				</div>
+			<div class="recipe__recipe-container">
+  				<img src="{{ item.image }}" alt="{{ item.title }}">
+			</div>
+		<div id="recipe_title">
+				<h1>{{ item.title }}</h1>
+		</div>
+		<div id="recipe__author">
+				<p>por
+						{{ item.author }}</p>
+		</div>
+		<div class="recipe__section" id="in">
+				<h2>Ingredientes</h2>
+				<div class="ingredients__content">
+						<ul>
+								{% for it in item.ingredients %}
+								  {% if it != '' %}
+										<li>
+												{{ it }}
+										</li>
+									{% endif %}
+								{% endfor %}
+						</ul>
+				</div>
+		</div>
+		<div class="recipe__section" id="pr">
+				<h2>Modo de preparo</h2>
+				<div class="preparation__content">
+						<ul>
+								{% for it in item.preparation %}
+								  {% if it != '' %}
+										<li>
+												{{ it }}
+										</li>
+									{% endif %}
+								{% endfor %}
+						</ul>
+				</div>
+		</div>
+		<div class="recipe__section" id="info">
+				{% if item.information != '' %}
+						<h2>Informações adicionais</h2>
+						<div class="information__content">							
+								<p>{{ item.information }}</p>
+						</div>
+				{% endif %}
+		</div>
+	</div>
+{% endblock %}

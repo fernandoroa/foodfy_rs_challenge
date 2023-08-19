@@ -1,15 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&family=Source+Sans+Pro:wght@400;700&display=swap');
 
 :root {
+  --primary-color: #6558c3;
   --color-green: #50fa7b;
   --color-rocket: #7159c1;
-  --color-principal: #333;
-  --color-light-cream: #eeeeee;
-  --color-light-gray: #999999;
-  --color-light-red: #fbdfdb;
+  --color-gray: #444444;
+  --color-red: #dc4747;
+  --color-light-gray: #eeeeee;
+  --color-inter-gray: #999999;
   --color-black: #111111;
-  --color-inter-gray: #444444;
-  --color-lighter-gray: #777777;
+  --color-black-bottom: #333;
+  --color-cream: #fbdfdb;
+  --color-light-brown: #555;
+  --color-soft-brown: #ddd;
 }
 
 html {
@@ -30,29 +33,48 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-.content {
+textarea,
+input,
+select {
+    font-size: inherit;
+    font-weight: inherit;
+    text-decoration: none;
+    font-family: inherit;
+}
+
+.inner-body,
+.body-content-admin  {
   background-color: white;
   padding-left: 230px;
   padding-right: 230px;
-  max-width: 1400px;
+  min-height: 100vh;
+  padding-bottom: 100px;
+  margin-bottom: 100px;
 }
 
 header {
   padding-top: 30px;
-  border-bottom: 3px solid var(--color-principal);
+  border-bottom: 3px solid var(--color-black-bottom);
   background: white;
   max-width: 940px;
+}
+
+header.admin {
+  background: black;
+  margin-left: 230px;
+  border-bottom: none;
+  height: 10px;
 }
 
 footer {
   margin: 60px 0;
   padding-top:20px;
   height: 40px;
-  background: var(--color-light-cream);
+  background: var(--color-light-gray);
   max-width: 940px;
   text-align: center;
   opacity: 1;
-  color: var(--color-light-gray);
+  color: var(--color-inter-gray)
 }
 
 footer p {
@@ -75,6 +97,10 @@ footer p {
   text-decoration: none; /*removes underline*/
 }
 
+.links a.active {
+  font-weight: bold;
+}
+
 .links a:hover {
   color: var(--color-green);
   transition: color 2200ms;
@@ -86,7 +112,7 @@ footer p {
   position:relative;
   top: 0;
   opacity: 1;
-  background-color: var(--color-light-red);
+  background-color:var(--color-cream);
   margin: 5vh 0;
   border-radius: 50px;
 }
@@ -126,7 +152,7 @@ footer p {
   font-size:  18px;
   line-height:28px;
   font-weight: regular;
-  color: var(--color-inter-gray);
+  color: var(--color-gray);
   padding-top:20px;
 }
 
@@ -161,35 +187,49 @@ footer p {
   padding-top: 25px;
 }
 
-
-.recipe__section .sameline {
+.recipe__section .title_button_container {
   padding-top: 25px;
   display: inline-flex;
 }
 
-.recipe__section h2 {
-  font-size:24px;
+.same-line {
+  padding-top: 32px;
+  margin-top: 5vh;
+  display: flex;
+  justify-content: space-between;
+}
+
+.same-line .admin-title {
+  margin-top: 0;
+}
+
+.recipe__section {
+  margin-top: 25px;
+}
+
+.recipe__section h2,
+.same-line h2 {
+  font-size: 24px;
   line-height:28px;
   color: var(--color-black);
-  /*padding-top: 20px;*/
 }
 
 /*button */
-
-.recipe__section .sameline .button span {
+.recipe__section .title_button_container .button span {
   font-size:12px;
   line-height:28px;
-  color: #999999;
+  color: var(--color-inter-gray);
   padding-left:20px;
-  /*padding:30px 20px 0px 50px;*/
-  font-weight: bold; /* If you want it to be bold */
+  padding-top:20px;
+  font-weight: bold;
   cursor: pointer;
+  vertical-align: bottom;
 }
 
 .recipe__section li {
   font-size:18px;
   line-height:28px;
-  color: var(--color-lighter-gray);
+  color: var(--color-gray);
   /*margin-left: 20px;*/
 }
 
@@ -207,8 +247,8 @@ ul li::before {
 }
 
 .ingredients__content {
-visibility: visible;
-display:unset;
+  visibility: visible;
+  display:unset;
 }
 
 .ingredients__content.inactive {
@@ -228,7 +268,8 @@ display:unset;
 .information__content {
   visibility: visible;
   display:unset;
-  }
+  white-space: pre-line;
+}
 
 .information__content.inactive {
     display:none;
@@ -237,7 +278,7 @@ display:unset;
 .recipe__section p {
   font-size:18px;
   line-height:28px;
-  color: var(--color-lighter-gray);
+  color: var(--color-gray);
   padding-top: 25px;
 }
 
@@ -246,7 +287,7 @@ display:unset;
   font-size:20px;
   line-height:24px;
   text-align: center;
-  color: var(--color-lighter-gray);
+  color: var(--color-gray);
 }
 
 #wrapper img {
@@ -256,7 +297,7 @@ display:unset;
   height: 200px
 }
 
-#wrapper h1 {
+#wrapper h1, .admin-title h1 {
   font-size:24px;
   line-height:28px;
   font-weight: bold;
@@ -272,7 +313,7 @@ display:unset;
 
 #wrapper p {
   max-width: 320px;
-  margin: 32px auto; /* 1st side, 2nd lateral */
+  margin: 32px auto;
   font-size: 24px;
 }
 
@@ -283,7 +324,7 @@ display:unset;
 /*==== CARDS ====*/
 .cards,
 .allcards {
-  max-width: 940px; /* was not respected */
+  max-width: 940px;
   margin: 0 0;
   display:grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -291,28 +332,117 @@ display:unset;
   padding-top: 25px;
 }
 
+.cards-manager {
+  max-width: 940px;
+  margin: 0 0;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding-top: 25px;
+}
+
+.cardRecipeManager {
+  display:grid;
+  grid-template-columns: 172px 1fr;
+  gap: 20px;
+  padding-top: 5px;
+}
+
 .card, .cardRecipe {
-   /* background-color: var(--color-rocket);*/
   cursor: pointer;
   overflow: hidden;
 }
 
 .card__image-container img {
   object-fit: cover;
-  width: 300px;
-  height: 150px;
+    width: 300px;
+    height: 150px;
   border-radius: 10px;
 }
 
-.card__content,
-.card__info {
+.card__image-container-manager img {
+  object-fit: cover;
+  width: 172px;
+  height: 80px;
+  border-radius: 10px;
+}
+
+.card__title,
+.card__author,
+.visualizer {
   padding: 4px;
 }
 
-.card__info {
-  display:grid;
-  grid-template-columns: 1fr 1fr;
+.card__author {
   font-size: 14px;
   line-height: 16px;
   opacity: 0.5;
+}
+
+.admin-title {
+  margin-top: 5vh;
+}
+
+.visualizer {
+  font-size: 14px;
+  color: var(--color-rocket);
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button[type="submit"],
+a.button {
+  padding: 8px 24px;
+  background-color: var(--primary-color);
+  border-radius: 4px;
+  width: auto;
+  color: white;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.right {
+  margin-top: 6px;
+  display: flex;
+  justify-content: flex-end;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+#form-delete button[type="submit"] {
+  margin-top: 12px;
+  background-color: var(--color-red);
+}
+
+/* FORM */
+
+input, select, textarea {
+  width: 100%;
+  outline: none;
+  font-size: 16px;
+  color: var(--color-light-brown);
+  margin-top: 10px;
+  border: 1px solid var(--color-soft-brown);
+  border-radius: 5px;
+  padding: 10px;
+}
+
+input::placeholder {
+  font-size: 16px;
+  font-weight: normal;
+}
+
+textarea {
+  resize: none;
+  height: 200px;
+  line-height: 28px;
+}
+
+.add-ingredient, .add-step {
+  color: var(--primary-color);
+  background-color: transparent;
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 16px;
+  cursor: pointer;
 }

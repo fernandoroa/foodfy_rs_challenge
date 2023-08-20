@@ -46,3 +46,19 @@ https://github.com/rocketseat-education/bootcamp-launchbase-desafios-04/blob/mas
   * or paste this:
 https://raw.githubusercontent.com/rocketseat-education/bootcamp-launchbase-desafios-04/master/layouts/specs/index.html  
 into: https://raw.githack.com/
+
+#### How to run
+
+- Option 1 - node
+  * clone this repository
+  * Install node.js
+  * `npm install`
+  * `npm run nodemon`
+  * In the browser open `http://localhost:5510`  
+- Option 2 - docker
+  * Install and test docker on your system
+  * `docker pull fercyto/foodfy-challenge3`
+  * `docker run -p 5010:5010 fercyto/foodfy-challenge3`
+  * In the browser open `http://localhost:5510`  
+
+

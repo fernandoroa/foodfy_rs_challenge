@@ -1,13 +1,21 @@
 <script>
   const cardsRecipes = document.querySelectorAll('.cardRecipe')
 
-  for (let card of cardsRecipes) {
+for (let card of cardsRecipes) {
   card.addEventListener("click", function() {
     const dishId = card.getAttribute("id")
-    window.location.href = `/receitas/${dishId}`
+    window.location.href = `/recipes/${dishId}`
   })
 }
 
+const cardsRecipesManager = document.querySelectorAll('.visualizer')
+
+for (let card of cardsRecipesManager) {
+  card.addEventListener("click", function() {
+    const dishId = card.getAttribute("id")
+    window.location.href = `/admin/recipes/${dishId}`
+  })
+}
 
 const ingredients__content = document.querySelector('.ingredients__content')
 const preparation__content = document.querySelector('.preparation__content')
@@ -21,22 +29,21 @@ if (buttons) {
 
   for (let button of buttons) {
 
-  button.addEventListener("click", function() {
+    button.addEventListener("click", function() {
 
-    var parentDiv = button.parentNode.parentNode;
-    var id = parentDiv.getAttribute("id");
+      var parentDiv = button.parentNode.parentNode;
+      var id = parentDiv.getAttribute("id");
 
-    const bitext = button.querySelector("span").innerText
+      const current_text = button.querySelector("span").innerText
 
-    if(bitext == "ESCONDER"){
-
-        obj[id].classList.add('inactive')
-        button.querySelector("span").innerText  = "MOSTRAR"
-    } else if(bitext == "MOSTRAR") {
-        obj[id].classList.remove('inactive')
-        button.querySelector("span").innerText  = "ESCONDER"
-    }
-  })
+      if(current_text == "ESCONDER"){
+          obj[id].classList.add('inactive')
+          button.querySelector("span").innerText  = "MOSTRAR"
+      } else if(current_text == "MOSTRAR") {
+          obj[id].classList.remove('inactive')
+          button.querySelector("span").innerText  = "ESCONDER"
+      }
+    })
 
   }
 }

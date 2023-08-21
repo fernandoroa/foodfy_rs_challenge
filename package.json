@@ -1,18 +1,24 @@
 {
-  "name": "foodfy_refactor",
+  "name": "foodfy_admin",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "browsersync": "browser-sync start --proxy localhost:5010 --files 'public,views'",
+    "nodemon": "nodemon server.js",
+    "start": "concurrently --kill-others \"npm run nodemon\" \"npm run browsersync\" ",
+    "start2": "npm-run-all -p nodemon browsersync"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "method-override": "^3.0.0",
     "nunjucks": "^3.2.3"
   },
   "devDependencies": {
+    "browser-sync": "^2.29.3",
+    "concurrently": "^8.2.0",
     "nodemon": "^3.0.1"
   }
 }

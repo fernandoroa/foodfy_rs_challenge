@@ -1,0 +1,56 @@
+<input type="hidden" name="id" value={{item.id}}> 
+<div class="recipe__section" id="title">
+  <h2>Nome da Receita</h2>
+  <input type="text" name="title" placeholder="Nome da receita" value="{{ item.title }}">
+</div>
+
+<div class="recipe__section" id="author">
+    <h2>Nome do Autor</h2>
+    <input type="text" name="author" placeholder="Autor" value="{{ item.author }}">
+</div>
+
+<div class="recipe__section" id="imagen_url">
+      <h2>Imagen da receita</h2>
+      <input type="url" name="image" placeholder="http://" value="{{ item.image }}">
+</div>
+
+<div class="recipe__section" id="ingredients">
+  <h2>Ingredientes</h2>          
+        {% for it in item.ingredients %}
+          {% if it != '' %}
+            <div class="ingredient">
+              <input type="text" name="ingredients[]" value="{{ it }}" placeholder="Adicione Ingrediente">
+            </div>
+          {% endif %}
+        {% endfor %}
+        {% if item.ingredients.length == null %}
+          <div class="ingredient">
+            <input type="text" name="ingredients[]" value="" placeholder="Adicione Ingrediente">
+          </div>
+        {% endif %}
+</div>        
+<button type="button" class="add-ingredient">Adicionar novo ingrediente</button>
+
+<div class="recipe__section" id="steps">
+  <h2>Modo de preparo</h2>          
+        {% for step in item.preparation %}
+          {% if step != '' %}
+            <div class="step">
+              <input type="text" name="preparation[]" value="{{ step }}" placeholder="Adicione Passo">
+            </div>
+          {% endif %}
+        {% endfor %}
+        {% if item.preparation.length == null %}
+          <div class="step">
+            <input type="text" name="preparation[]" value="" placeholder="Adicione Passo">
+          </div>
+        {% endif %}
+</div>        
+<button type="button" class="add-step">Adicionar novo passo</button>
+
+{% include "./add_field.njk" %}
+
+<div class="recipe__section" id="info">
+  <h2>Informações adicionais</h2>
+  <textarea id="info" name="information">{{ item.information }}</textarea>
+</div>

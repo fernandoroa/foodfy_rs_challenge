@@ -17,7 +17,7 @@
   </div>
 
   <div class="recipe__section" id="in">
-    <div class="sameline">
+    <div class="title_button_container">
       <h2>Ingredientes</h2>
       <div class="button">
         <span>ESCONDER</span>
@@ -26,7 +26,9 @@
     <div class="ingredients__content">
         <ul>
       {% for it in item.ingredients %}
-      <li> {{ it }} </li>
+        {% if it != '' %}
+        <li> {{ it }} </li>
+        {% endif %}
       {% endfor %}
       </ul>
     </div>
@@ -34,7 +36,7 @@
 
   <div class="recipe__section" id="pr">
 
-    <div class="sameline">
+    <div class="title_button_container">
       <h2>Modo de preparo</h2>
       <div class="button">
         <span>ESCONDER</span>
@@ -43,7 +45,9 @@
     <div class="preparation__content">
       <ul>
       {% for it in item.preparation %}
+        {% if it != '' %}
       <li> {{ it }} </li>
+        {% endif %}
       {% endfor %}
       </ul>
     </div>
@@ -52,7 +56,7 @@
   <div class="recipe__section" id="info">
 
     {% if item.information != '' %}
-      <div class="sameline">
+      <div class="title_button_container">
             <h2>Informações adicionais</h2>
         <div class="button">
             <span>ESCONDER</span>

@@ -1,0 +1,16 @@
+{% extends "./layout.njk" %}
+{% block content %}
+  <div class="recipe" id="{{ item.id }}">
+
+    <form method="POST" action="/admin/recipes">
+
+      <div class="same-line">
+        <h1>Criando receita</h1>
+        <button type="submit" class="right">Salvar receita</button>
+      </div>
+
+      {% include 'admin/fields.njk' %}
+        
+    </form>
+  </div>
+{% endblock %}

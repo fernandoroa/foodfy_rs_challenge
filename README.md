@@ -59,6 +59,6 @@ into: https://raw.githack.com/
   * Install and test docker on your system
   * `docker pull fercyto/foodfy-challenge3`
   * `docker run -p 5010:5010 fercyto/foodfy-challenge3`
-  * In the browser open `http://localhost:5510`  
+  * In the browser open `http://localhost:5010`  
 
 

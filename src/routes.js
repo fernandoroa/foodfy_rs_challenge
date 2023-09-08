@@ -1,7 +1,7 @@
 const express = require("express");
 const routes  = express.Router()
 
-const recipes = require('./recipes') // recipes.js
+const recipes = require('./app/controllers/recipes') // recipes.js
 
 routes.get("/", function(req, res){
 	return res.redirect("/index")

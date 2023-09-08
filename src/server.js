@@ -21,7 +21,7 @@ server.set("view engine","njk")
 
 /* https://stackoverflow.com/questions/60430910/rendering-markdown-in-nunjucks-gives-block-tag-error */
 var env = new nunjucks.Environment(
-    new nunjucks.FileSystemLoader('views'), {
+    new nunjucks.FileSystemLoader('src/app/views'), {
     autoescape: false,
 	noCache: true
 });

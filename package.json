@@ -1,6 +1,6 @@
 {
-  "name": "foodfy_admin",
-  "version": "1.0.0",
+  "name": "foodfy_persistent",
+  "version": "4.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {

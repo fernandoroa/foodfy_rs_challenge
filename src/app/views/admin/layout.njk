@@ -1,27 +1,25 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		{% block head %}
-		<title>Foodfy</title>
-		{% endblock %}
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-   	<link rel="stylesheet" href="/styles.css">
-	</head>
-
-	<body>
-
-		<header class="admin">
-			<div class="links">
-				<div class="logo">
-					<a href="/admin">
-					    <img src="/foodassets/logo_inverted.png"> 
-				  </a>
-				</div>
-			</div>
-		</header class="admin">
-
-		<div class="body-content-admin">
-			{% block content %}{% endblock %}
-		</div>
-	</body>
+  <head>
+    {% block head %}
+      <title>Foodfy</title>
+    {% endblock %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="admin">
+      <div class="links">
+        <div class="logo">
+          <a href="/admin">
+            <img src="/foodassets/logo_inverted.png">
+          </a>
+        </div>
+      </div>
+    </header class="admin">
+    <div class="body-content-admin"> 
+      {% block content %}{% endblock %}
+    </div>
+    <script src="/scripts.js"></script>
+  </body>
 </html>

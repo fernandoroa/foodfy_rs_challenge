@@ -1,21 +1,18 @@
 {% extends "layout.njk" %}
 {% block content %}
-    <section class="allcards">
-        {% set x = -1 %}
-        {% for item in items %}
-            {% set x = x + 1 %}
-            <div class="cardRecipe" id="{{ x }}">
-                <div class="card__image-container">
-                    <img src="{{ item.image }}" alt="{{ item.title }}">
-                </div>
-                <div class="card__title">
-                    <p>{{ item.title }}</p>
-                </div>
-                <div class="card__author">
-                    <p>{{ item.author }}</p>
-                </div>
-            </div>
-        {% endfor %}
-    </section>
-    {% include "links.njk" %}
+  <section class="allcards">
+    {% for recipe in recipes %}
+      <div class="cardRecipe" id="{{ recipe.id }}">
+        <div class="card__image-container">
+          <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+        </div>
+        <div class="card__title">
+          <p>{{ recipe.title }}</p>
+        </div>
+        <div class="card__chef_name">
+          <p>{{ recipe.chef_name }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </section>
 {% endblock %}

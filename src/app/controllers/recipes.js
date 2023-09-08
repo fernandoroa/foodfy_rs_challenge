@@ -1,131 +1,126 @@
-const fs = require('fs')
-const data = require("../../../data.json")
+const Recipe = require("../models/Recipe");
 
-exports.main = function(req, res) {
-  return res.render("index", { items: data.recipes} )
-}
+module.exports = {
+  main(req, res) {
+    let { filter, page, limit } = req.query;
 
-exports.about = function(req, res) {
-  const about = {
-    title_h1:   "Sobre o Foodfy",
-    parag_1:    "Suspendisse placerat neque neque. Morbi dictum nulla non sapien rhoncus, et mattis erat commodo. Aliquam vel lacus a justo mollis luctus. Proin vel auctor eros, sed eleifend nunc. Curabitur eget tincidunt risus. Mauris malesuada facilisis magna, vitae volutpat sapien tristique eu. Morbi metus nunc, interdum in erat placerat, aliquam iaculis massa. Duis vulputate varius justo pharetra maximus. In vehicula enim nec nibh porta tincidunt. Vestibulum at ultrices turpis, non dictum metus. Vivamus ligula ex, semper vitae eros ut, euismod convallis augue.",
-    parag_2:    "Fusce nec pulvinar nunc. Duis porttitor tincidunt accumsan. Quisque pulvinar mollis ipsum ut accumsan. Proin ligula lectus, rutrum vel nisl quis, efficitur porttitor nisl. Morbi ut accumsan felis, eu ultrices lacus. Integer in tincidunt arcu, et posuere ligula. Morbi cursus facilisis feugiat. Praesent euismod nec nisl at accumsan. Donec libero neque, vulputate semper orci et, malesuada sodales eros. Nunc ut nulla faucibus enim ultricies euismod.",
-    title_h2_1: "Como tudo começou",
-    title_h2_2: "Nossas receitas",
-    }
-  return res.render("about", { about} )
-}
+    page = page || 1;
+    limit = limit || 3;
+    let offset = limit * (page - 1);
 
-exports.list = function(req, res) {
-  return res.render("recipes", { items: data.recipes} )
-}
+    const params = {
+      filter,
+      limit,
+      offset,
+      callback(recipes) {
+        const pagination = {
+          total: Math.ceil(recipes[0].total / limit),
+          page,
+        };
+        return res.render("index", { recipes, pagination, filter });
+      },
+    };
 
-exports.display = function(req, res) {
-  const recipeIndex = req.params.id;
-  const foundRecipe = data.recipes[recipeIndex]
-  const recipe = {
-    ...foundRecipe,
-    id: recipeIndex
-  }
-  return res.render("recipe", { item: recipe} )
-}
+    Recipe.paginate(params);
+  },
+  about(req, res) {
+    const about = {
+      title_h1: "Sobre o Foodfy",
+      parag_1:
+        "Suspendisse placerat neque neque. Morbi dictum nulla non sapien rhoncus, et mattis erat commodo. Aliquam vel lacus a justo mollis luctus. Proin vel auctor eros, sed eleifend nunc. Curabitur eget tincidunt risus. Mauris malesuada facilisis magna, vitae volutpat sapien tristique eu. Morbi metus nunc, interdum in erat placerat, aliquam iaculis massa. Duis vulputate varius justo pharetra maximus. In vehicula enim nec nibh porta tincidunt. Vestibulum at ultrices turpis, non dictum metus. Vivamus ligula ex, semper vitae eros ut, euismod convallis augue.",
+      parag_2:
+        "Fusce nec pulvinar nunc. Duis porttitor tincidunt accumsan. Quisque pulvinar mollis ipsum ut accumsan. Proin ligula lectus, rutrum vel nisl quis, efficitur porttitor nisl. Morbi ut accumsan felis, eu ultrices lacus. Integer in tincidunt arcu, et posuere ligula. Morbi cursus facilisis feugiat. Praesent euismod nec nisl at accumsan. Donec libero neque, vulputate semper orci et, malesuada sodales eros. Nunc ut nulla faucibus enim ultricies euismod.",
+      title_h2_1: "Como tudo começou",
+      title_h2_2: "Nossas receitas",
+    };
+    return res.render("about", { about });
+  },
+  list(req, res) {
+    let { filter, page, limit } = req.query;
 
-// *** admin ***
+    page = page || 1;
+    limit = limit || 3;
+    let offset = limit * (page - 1);
 
-exports.index = function(req, res) {
-  return res.render("admin/index", { items: data.recipes} )
-}
+    const params = {
+      filter,
+      limit,
+      offset,
+      callback(recipes) {
+        const pagination = {
+          total: Math.ceil(recipes[0].total / limit),
+          page,
+        };
+        return res.render("recipes", { recipes, pagination, filter });
+      },
+    };
 
-// create, related to post
-exports.create = function(req, res) {
-  return res.render("admin/create")
-}
+    Recipe.paginate(params);
+  },
+  display(req, res) {
+    Recipe.find(req.params.id, function (recipe) {
+      if (!recipe) return res.send("Missing recipe");
 
-exports.show = function(req, res) {
-  const recipeIndex = req.params.id;
-  const foundRecipe = data.recipes[recipeIndex]
-  const recipe = {
-    ...foundRecipe,
-    id: recipeIndex
-  }
-  return res.render("admin/show", { item: recipe} )
-}
+      return res.render("display", { recipe });
+    });
+  },
+  index(req, res) {
+    let { filter, page, limit } = req.query;
 
-// edit, related to put, and delete
-exports.edit = function(req, res) {
+    page = page || 1;
+    limit = limit || 4;
+    let offset = limit * (page - 1);
 
-  const recipeIndex = req.params.id;
-  const foundRecipe = data.recipes[recipeIndex]
-  const recipe = {
-    ...foundRecipe,
-    id: recipeIndex
-  }
+    const params = {
+      filter,
+      limit,
+      offset,
+      callback(recipes) {
+        const pagination = {
+          total: Math.ceil(recipes[0].total / limit),
+          page,
+        };
+        return res.render("admin/index", { recipes, pagination, filter });
+      },
+    };
+    Recipe.paginate(params);
+  },
+  create(req, res) {
+    Recipe.chefsSelectOptions(function (options) {
+      return res.render("admin/create", { chefOptions: options });
+    });
+  },
+  show(req, res) {
+    Recipe.find(req.params.id, function (recipe) {
+      if (!recipe) return res.send("Missing recipe");
 
-  return res.render('admin/edit', {item: recipe})
-}
+      return res.render("admin/show", { recipe });
+    });
+  },
+  edit(req, res) {
+    Recipe.find(req.params.id, function (recipe) {
+      if (!recipe) return res.send("Missing recipe");
 
-// post, related to create
-exports.post = function(req,res) {
+      Recipe.chefsSelectOptions(function (options) {
+        return res.render("admin/edit", { recipe, chefOptions: options });
+      });
+    });
+  },
+  post(req, res) {
+    Recipe.create(req.body, function (recipe) {
+      return res.redirect(`/recipes/${recipe.id}`);
+    });
+  },
+  put(req, res) {
+    if (req.body.chef_id == "") return res.send("please fill all fields");
 
-  let { image, title, author, ingredients, preparation, information } = req.body
-
-  data.recipes.push({
-    image,
-    title,
-    author,
-    ingredients,
-    preparation,
-    information
-  })
-
-  const id = Number(data.recipes.length) - 1
-  console.log(id)
-  fs.writeFile("data.json", JSON.stringify(data, null, 2), function(err) {
-      if (err) return res.send("Write file error!")
-
-      return res.redirect(`/recipes/${id}`)
-  })
-}
-
-// put, related to edit
-exports.put = function(req,res) {
-
-  const recipeIndex = req.body.id;
-
-  const foundRecipe = data.recipes[recipeIndex]
-
-  let { image, title, author, ingredients, preparation, information } = req.body
-
-  const recipe = {
-    ...foundRecipe,
-    image,
-    title,
-    author,
-    ingredients,
-    preparation,
-    information
-  }
-
-  data.recipes[recipeIndex] = recipe
-
-  fs.writeFile("data.json", JSON.stringify(data, null, 2), function(err) {
-      if (err) return res.send("Write file error!")
-
-      return res.redirect(`/recipes/${recipeIndex}`)
-  })
-}
-
-// delete, in edit.njk
-exports.delete = function(req, res) {
-
-  const recipeIndex = req.body.id;
-
-  data.recipes.splice(recipeIndex, 1)
-
-  fs.writeFile("data.json", JSON.stringify(data, null, 2), function(err) {
-    if (err) return res.send("Write file error")
-
-    return res.redirect("/admin/recipes")
-  })
-
-}
+    Recipe.update(req.body, function () {
+      return res.redirect(`/recipes/${req.body.id}`);
+    });
+  },
+  delete(req, res) {
+    Recipe.delete(req.body.id, function () {
+      return res.redirect(`/recipes`);
+    });
+  },
+};

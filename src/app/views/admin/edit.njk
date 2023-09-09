@@ -5,16 +5,16 @@
       <h1>Editando receita</h1>
     
       <form id="form-delete" action="/admin/recipes?_method=DELETE" method="POST">
-        <input type="hidden" name="id" value={{item.id}}>
+        <input type="hidden" name="id" value={{recipe.id}}>
         <button type="submit">Deletar</button>
       </form>
 
     </div>
 
     <form method="POST" action="/admin/recipes?_method=PUT">
-        <button type="submit" class="right">Salvar receita</button>
-        {% include 'admin/fields.njk' %}
+      <input type="hidden" name="id" value={{recipe.id}}>
+      <button type="submit" class="right">Salvar receita</button>
+      {% include 'admin/fields.njk' %}
     </form>
   </div>
-	<script src="/scripts.js"></script>
 {% endblock %}

@@ -438,6 +438,31 @@ ul li::before {
   padding-top: 5px;
 }
 
+.chef__big_image-container img {
+  object-fit: cover;
+  width: 245px;
+  height: 245px;
+  border-radius: 122px;
+  padding-top: 5px;
+}
+
+.chef_picture_text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 25px;
+  margin: 25px auto;
+}
+
+#chef__name {
+  text-align: center;
+}
+
+#chef__recipes_per_chef {
+  text-align: center;
+}
+
 button[type="submit"],
 a.button {
   padding: 8px 24px;

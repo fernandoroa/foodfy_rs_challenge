@@ -1,28 +1,46 @@
 <script>
   const cardsRecipes = document.querySelectorAll('.cardRecipe')
-  for (let card of cardsRecipes) {
-    card.addEventListener("click", function () {
-      const dishId = card.getAttribute("id")
-      window.location.href = `/recipes/${dishId}`
-    })
+  if (cardsRecipes) {
+    for (let card of cardsRecipes) {
+      card.addEventListener("click", function () {
+        const dishId = card.getAttribute("id")
+        window.location.href = `/recipes/${dishId}`
+      })
+    }
   }
+
   const cardsRecipesManager = document.querySelectorAll('.visualizer')
-  for (let card of cardsRecipesManager) {
-    card.addEventListener("click", function () {
-      const dishId = card.getAttribute("id")
-      window.location.href = `/admin/recipes/${dishId}`
-    })
+  if (cardsRecipesManager) {
+    for (let card of cardsRecipesManager) {
+      card.addEventListener("click", function () {
+        const dishId = card.getAttribute("id")
+        window.location.href = `/admin/recipes/${dishId}`
+      })
+    }
   }
+  
+  const chefCardsManager = document.querySelectorAll('.chef_card__visualizer')
+  if (chefCardsManager) {
+    for (let card of chefCardsManager) {
+      card.addEventListener("click", function () {
+        const chefId = card.getAttribute("id")
+        window.location.href = `/admin/chefs/${chefId}`
+      })
+    }
+  }
+
   const ingredients__content = document.querySelector('.ingredients__content')
   const preparation__content = document.querySelector('.preparation__content')
   const information__content = document.querySelector('.information__content')
+
   var obj = {
     "in": ingredients__content,
     "pr": preparation__content,
     "info": information__content
   }
+
   const buttons = document.querySelectorAll('.button')
-  if (buttons) {
+  if (buttons && ingredients__content) {
     for (let button of buttons) {
       button.addEventListener("click", function () {
         var parentDiv = button.parentNode.parentNode;

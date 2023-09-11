@@ -94,7 +94,7 @@ footer p {
   font-size: 16px;
   line-height: 26px;
   padding-bottom: 35px;
-  text-decoration: none; /*removes underline*/
+  text-decoration: none;
 }
 
 header.admin .links a {
@@ -140,7 +140,6 @@ header.admin .links a.active {
   position: absolute;
 }
 
-/* absolute allows right side img to not go down*/
 #banner_text {
   position: absolute;
 }
@@ -248,16 +247,16 @@ header.admin .links a.active {
 }
 
 ul {
-  list-style: none; /* Remove default bullets */
+  list-style: none;
   padding-top: 15px;
 }
 
 ul li::before {
-  content: "\2022"; /* Add content: \2022 is the CSS Code/unicode for a bullet */
+  content: "\2022";
   color: black;
   font-weight: bold;
-  display: inline-block; /* Needed to add space between the bullet and the text */
-  width: 1em; /* Also needed for space (tweak if needed) */
+  display: inline-block;
+  width: 1em;
 }
 
 .ingredients__content {
@@ -383,6 +382,8 @@ ul li::before {
   border-radius: 10px;
 }
 
+.chef_card__visualizer,
+.chef_card__chef_name,
 .card__title,
 .card__chef_name,
 .visualizer {
@@ -399,11 +400,36 @@ ul li::before {
   margin-top: 5vh;
 }
 
+.chef_card__visualizer,
 .visualizer {
   font-size: 14px;
   color: var(--color-rocket);
   cursor: pointer;
   font-weight: bold;
+}
+
+.chef_cards-manager {
+  max-width: 940px;
+  margin: 0 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
+  padding-top: 25px;
+}
+
+.chef_card-manager {
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  gap: 10px;
+  padding-top: 5px;
+}
+
+.chef_card__image-container-manager img {
+  object-fit: cover;
+  width: 45px;
+  height: 45px;
+  border-radius: 22px;
+  padding-top: 5px;
 }
 
 button[type="submit"],

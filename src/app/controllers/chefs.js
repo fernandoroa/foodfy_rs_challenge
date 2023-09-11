@@ -53,4 +53,13 @@ module.exports = {
       return res.redirect(`/chefs`);
     });
   },
+  show(req, res) {
+    const id = req.params.id;
+    Chef.find(id, function (chef) {
+      if (!chef) return res.send("Missing chef");
+      Chef.findBy(id, function(recipes) {
+        return res.render('admin/chefs/show', { chef, chef_recipes: recipes })
+      })
+    });
+  },
 }

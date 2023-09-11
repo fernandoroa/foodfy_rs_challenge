@@ -31,11 +31,7 @@ module.exports = {
       RETURNING id
     `;
 
-    const values = [
-      data.avatar_url,
-      data.name,
-      date(Date.now()).iso,
-    ];
+    const values = [data.avatar_url, data.name, date(Date.now()).iso];
 
     db.query(query, values, function (err, results) {
       if (err) throw `Database error! ${err}`;
@@ -61,11 +57,8 @@ module.exports = {
       name=($2)
       WHERE id = $3
     `;
-    const values = [
-      data.avatar_url,
-      data.name,
-      +data.id,
-    ];
+
+    const values = [data.avatar_url, data.name, +data.id];
 
     db.query(query, values, function (err, results) {
       if (err) throw `Database error! ${err}`;
@@ -73,12 +66,35 @@ module.exports = {
     });
   },
   delete(id, callback) {
+    db.query(`DELETE FROM chefs WHERE id = $1`, [id], function (err, results) {
+      if (err) throw `Database error! ${err}`;
+      return callback();
+    });
+  },
+  findBy(id, callback) {
     db.query(
-      `DELETE FROM chefs WHERE id = $1`,
+      `
+    WITH table1 AS (
+      SELECT chefs.id AS chefs_id, chefs.name AS chefs_name, recipes.title, recipes.image, recipes.id AS recipes_id
+      FROM chefs
+      LEFT JOIN recipes ON (recipes.chef_id = chefs.id) 
+      WHERE chefs.id = $1
+      GROUP BY chefs.id, recipes.title, recipes.image, recipes.id
+    ),
+    table2 as ( 
+      SELECT chefs.id AS chefs_id, count(recipes) AS chef_recipes_total
+      FROM chefs
+      LEFT JOIN recipes ON (recipes.chef_id = chefs.id) 
+      WHERE chefs.id = $1
+      GROUP BY chefs.id
+    )
+    select * from table1
+    left join table2 on table1.chefs_id = table2.chefs_id
+    `,
       [id],
       function (err, results) {
         if (err) throw `Database error! ${err}`;
-        return callback();
+        callback(results.rows);
       }
     );
   },

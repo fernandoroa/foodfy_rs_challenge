@@ -20,5 +20,13 @@ module.exports = {
       },
     };
     Chef.paginate(params);
-  }
+  },
+  create(req, res) {
+    return res.render("admin/chefs/create")
+  },
+  post(req, res) {
+    Chef.create(req.body, function (chef) {
+      return res.redirect(`/chefs/${chef.id}`);
+    });
+  },
 }

@@ -21,6 +21,8 @@ routes.get("/admin", function(req, res){
 
 // chefs
 routes.get("/admin/chefs", chefs.index);
+routes.get("/admin/chefs/create", chefs.create);
+routes.post("/admin/chefs", chefs.post);
 
 // recipes
 routes.get("/admin/recipes", recipes.index);

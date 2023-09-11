@@ -212,17 +212,23 @@ header.admin .links a.active {
   justify-content: space-between;
 }
 
+.same-line h1 {
+  font-size: 24px;
+}
+
 .same-line .admin-title {
   margin-top: 0;
 }
 
+.chef__section,
 .recipe__section {
   margin-top: 25px;
 }
 
+.chef__section h2,
 .recipe__section h2,
 .same-line h2 {
-  font-size: 24px;
+  font-size: 16px;
   line-height: 28px;
   color: var(--color-black);
 }

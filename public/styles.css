@@ -97,6 +97,20 @@ footer p {
   text-decoration: none; /*removes underline*/
 }
 
+header.admin .links a {
+  font-size: 12px;
+  line-height: 28px;
+  padding-bottom: 35px;
+  text-decoration: none;
+  color: var(--color-inter-gray);
+  cursor: pointer;
+}
+
+header.admin .links a.active {
+  color: white;
+  font-weight: bold;
+}
+
 .links a.active {
   font-weight: bold;
 }

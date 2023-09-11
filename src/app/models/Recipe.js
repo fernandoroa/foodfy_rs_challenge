@@ -111,7 +111,8 @@ module.exports = {
     FROM recipes
     LEFT JOIN chefs ON (recipes.chef_id = chefs.id)
     ${filterQuery}
-    LIMIT $1 OFFSET $2     
+    ORDER BY recipes.title
+    LIMIT $1 OFFSET $2
     `;
 
     db.query(query, [limit, offset], function (err, results) {

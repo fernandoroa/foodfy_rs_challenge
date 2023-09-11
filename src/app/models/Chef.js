@@ -12,6 +12,7 @@ module.exports = {
     let query = `
     SELECT chefs.*, ${totalQuery} AS total
     FROM chefs
+    ORDER BY chefs.name
     LIMIT $1 OFFSET $2
     `;
 

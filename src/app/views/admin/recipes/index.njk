@@ -1,4 +1,4 @@
-{% extends "./layout.njk" %}
+{% extends "../layout.njk" %}
 {% block content %}
   <div class="same-line">
     <div class="admin-title">
@@ -27,5 +27,5 @@
     {% endfor %}
   </section>
   <div class="pagination" data-page={{ pagination.page }} data-total={{ pagination.total }} data-filter={{ filter }}></div>
-  {% include "../links.njk" %}
+  {% include "../../links.njk" %}
 {% endblock %}

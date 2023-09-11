@@ -80,21 +80,21 @@ module.exports = {
           total: Math.ceil(recipes[0].total / limit),
           page,
         };
-        return res.render("admin/index", { recipes, pagination, filter });
+        return res.render("admin/recipes/index", { recipes, pagination, filter });
       },
     };
     Recipe.paginate(params);
   },
   create(req, res) {
     Recipe.chefsSelectOptions(function (options) {
-      return res.render("admin/create", { chefOptions: options });
+      return res.render("admin/recipes/create", { chefOptions: options });
     });
   },
   show(req, res) {
     Recipe.find(req.params.id, function (recipe) {
       if (!recipe) return res.send("Missing recipe");
 
-      return res.render("admin/show", { recipe });
+      return res.render("admin/recipes/show", { recipe });
     });
   },
   edit(req, res) {
@@ -102,7 +102,7 @@ module.exports = {
       if (!recipe) return res.send("Missing recipe");
 
       Recipe.chefsSelectOptions(function (options) {
-        return res.render("admin/edit", { recipe, chefOptions: options });
+        return res.render("admin/recipes/edit", { recipe, chefOptions: options });
       });
     });
   },

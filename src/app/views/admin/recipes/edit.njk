@@ -1,4 +1,4 @@
-{% extends "./layout.njk" %}
+{% extends "../layout.njk" %}
 {% block content %}
   <div class="recipe" id="{{ recipe.id }}">
     <div class="same-line">
@@ -14,7 +14,7 @@
     <form method="POST" action="/admin/recipes?_method=PUT">
       <input type="hidden" name="id" value={{recipe.id}}>
       <button type="submit" class="right">Salvar receita</button>
-      {% include 'admin/fields.njk' %}
+      {% include 'admin/recipes/fields.njk' %}
     </form>
   </div>
 {% endblock %}

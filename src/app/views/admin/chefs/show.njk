@@ -13,30 +13,36 @@
         <h1>Chef: {{ chef.name }}</h1>
       </div>
       <div id="chef__recipes_per_chef">
-        <p>{{ chef_recipes[0].chef_recipes_total }} receitas</p>
+        <p>{{ chef_recipes[0].chef_recipes_total }}
+          {% if chef_recipes[0].chef_recipes_total == 1 %}
+            receita {% else %} receitas
+          {% endif %}
+        </p>
       </div>
     </div>
-    <h2>Receitas</h2>
-    <section class="cards-manager">
-      {% for recipe in chef_recipes %}
-        <div class="cardRecipeManager">
-          <div class="card__image-container-manager">
-            <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+    {% if chef_recipes[0].chef_recipes_total >= 1 %}
+      <h2>Receitas</h2>
+      <section class="cards-manager">
+        {% for recipe in chef_recipes %}
+          <div class="cardRecipeManager">
+            <div class="card__image-container-manager">
+              <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+            </div>
+            <div class="card_texts">
+              <div class="card__title">
+                <p>{{ recipe.title }}</p>
+              </div>
+              <div class="card__chef_name">
+                <p>{{ recipe.chef_name }}</p>
+              </div>
+              <div class="visualizer" id="{{ recipe.recipes_id }}">
+                <p>Visualizar</p>
+              </div>
+            </div>
           </div>
-          <div class="card_texts">
-            <div class="card__title">
-              <p>{{ recipe.title }}</p>
-            </div>
-            <div class="card__chef_name">
-              <p>{{ recipe.chef_name }}</p>
-            </div>
-            <div class="visualizer" id="{{ recipe.recipes_id }}">
-              <p>Visualizar</p>
-            </div>
-          </div>
-        </div>
-      {% endfor %}
-    </section>
+        {% endfor %}
+      </section>
+    {% endif %}
   </div>
   {% include "../../links.njk" %}
 {% endblock %}

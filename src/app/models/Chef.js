@@ -8,10 +8,13 @@ module.exports = {
     let totalQuery = `(
           SELECT count(*) FROM chefs 
         )`;
-
     let query = `
-    SELECT chefs.*, ${totalQuery} AS total
+    SELECT chefs.id, chefs.name, chefs.avatar_url, 
+    count(recipes) AS chef_recipes_total,
+    ${totalQuery} AS total
     FROM chefs
+    LEFT JOIN recipes ON (recipes.chef_id = chefs.id) 
+    GROUP BY chefs.id
     ORDER BY chefs.name
     LIMIT $1 OFFSET $2
     `;

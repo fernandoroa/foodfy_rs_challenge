@@ -8,10 +8,14 @@ routes.get("/", function(req, res){
 	return res.redirect("/index")
 })
 
-routes.get("/about", recipes.about);
-routes.get("/recipes", recipes.list);
 routes.get("/index", recipes.main);
+routes.get("/about", recipes.about);
+
+routes.get("/recipes", recipes.list);
 routes.get("/recipes/:id", recipes.display);
+
+routes.get("/chefs", chefs.list);
+routes.get("/chefs/:id", chefs.display);
 
 //*** admin ***/
 

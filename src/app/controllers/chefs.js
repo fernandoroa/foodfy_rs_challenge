@@ -1,6 +1,35 @@
 const Chef = require("../models/Chef");
 
 module.exports = {
+  list(req, res) {
+    let { page, limit } = req.query;
+
+    page = page || 1;
+    limit = limit || 4;
+    let offset = limit * (page - 1);
+
+    const params = {
+      limit,
+      offset,
+      callback(chefs) {
+        const pagination = {
+          total: Math.ceil(chefs[0].total / limit),
+          page,
+        };
+        return res.render("chefs/index", { chefs, pagination });
+      },
+    };
+    Chef.paginate(params);
+  },
+  display(req, res) {
+    const id = req.params.id;
+    Chef.find(id, function (chef) {
+      if (!chef) return res.send("Missing chef");
+      Chef.findBy(id, function(chefs) {
+        return res.render('chefs/display', { chef, chef_recipes: chefs })
+      })
+    });
+  },
   index(req, res) {
     let { page, limit } = req.query;
 

@@ -9,6 +9,16 @@
     }
   }
 
+  const chefCards = document.querySelectorAll('.chef_card')
+  if (chefCards) {
+    for (let card of chefCards) {
+      card.addEventListener("click", function () {
+        const chefId = card.getAttribute("id")
+        window.location.href = `/chefs/${chefId}`
+      })
+    }
+  }
+
   const cardsRecipesManager = document.querySelectorAll('.visualizer')
   if (cardsRecipesManager) {
     for (let card of cardsRecipesManager) {

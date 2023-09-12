@@ -200,8 +200,13 @@ header.admin .links a.active {
   padding-top: 25px;
 }
 
-.recipe__section .title_button_container {
+#recipe_title h2 {
+  text-align: center;
+  color: var(--color-black);
   padding-top: 25px;
+}
+
+.recipe__section .title_button_container {
   display: inline-flex;
 }
 
@@ -209,11 +214,14 @@ header.admin .links a.active {
   padding-top: 32px;
   margin-top: 5vh;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
-.same-line h1 {
+.same-line h1,
+h2 {
   font-size: 24px;
+  justify-self: flex-start;
+  margin-right: auto;
 }
 
 .same-line .admin-title {
@@ -227,6 +235,7 @@ header.admin .links a.active {
 
 .chef__section h2,
 .recipe__section h2,
+.title_button_container h2,
 .same-line h2 {
   font-size: 16px;
   line-height: 28px;
@@ -249,7 +258,6 @@ header.admin .links a.active {
   font-size: 18px;
   line-height: 28px;
   color: var(--color-gray);
-  /*margin-left: 20px;*/
 }
 
 ul {
@@ -298,6 +306,9 @@ ul li::before {
   font-size: 18px;
   line-height: 28px;
   color: var(--color-gray);
+}
+
+.information__content p {
   padding-top: 25px;
 }
 
@@ -475,20 +486,19 @@ a.button {
 }
 
 .right {
-  margin-top: 6px;
   display: flex;
   justify-content: flex-end;
-  margin-left: auto;
-  margin-right: 0;
 }
 
-#form-delete button[type="submit"] {
-  margin-top: 12px;
+button[form="form-delete"] {
   background-color: var(--color-red);
+  margin-right: 10px;
+}
+button[form="form-put"] {
+  background-color: var(--primary-color);
 }
 
 /* FORM */
-
 input,
 select,
 textarea {
@@ -500,6 +510,7 @@ textarea {
   border: 1px solid var(--color-soft-brown);
   border-radius: 5px;
   padding: 10px;
+  box-sizing: border-box;
 }
 
 input::placeholder {

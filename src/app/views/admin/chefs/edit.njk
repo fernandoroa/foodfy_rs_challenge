@@ -2,18 +2,16 @@
 {% block content %}
   <div class="chef" id="{{ chef.id }}">
     <div class="same-line">
-      <h1>Editando receita</h1>
-    
-      <form id="form-delete" action="/admin/chefs?_method=DELETE" method="POST">
-        <input type="hidden" name="id" value={{chef.id}}>
-        <button type="submit">Deletar</button>
-      </form>
-
-    </div>
-
-    <form method="POST" action="/admin/chefs?_method=PUT">
+      <h1>Editando Chef</h1>
+      <div class="right"></div>
+        <button type="submit" form="form-delete">Deletar</button>
+        <button type="submit" form="form-put">Salvar Chef</button>
+      </div>
+    <form id="form-delete" action="/admin/chefs?_method=DELETE" method="POST">
       <input type="hidden" name="id" value={{chef.id}}>
-      <button type="submit" class="right">Salvar Chef</button>
+    </form>
+    <form id="form-put" action="/admin/chefs?_method=PUT" method="POST">
+      <input type="hidden" name="id" value={{chef.id}}>
       {% include 'admin/chefs/fields.njk' %}
     </form>
   </div>

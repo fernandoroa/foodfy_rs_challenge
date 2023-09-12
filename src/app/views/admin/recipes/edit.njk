@@ -3,18 +3,17 @@
   <div class="recipe" id="{{ recipe.id }}">
     <div class="same-line">
       <h1>Editando receita</h1>
-    
+      <div class="right"></div>
+        <button type="submit" form="form-delete">Deletar</button>
+        <button type="submit" form="form-put">Salvar receita</button>
+      </div>
       <form id="form-delete" action="/admin/recipes?_method=DELETE" method="POST">
         <input type="hidden" name="id" value={{recipe.id}}>
-        <button type="submit">Deletar</button>
       </form>
-
+      <form id="form-put" action="/admin/recipes?_method=PUT" method="POST">
+        <input type="hidden" name="id" value={{recipe.id}}>
+        {% include 'admin/recipes/fields.njk' %}
+      </form>
     </div>
-
-    <form method="POST" action="/admin/recipes?_method=PUT">
-      <input type="hidden" name="id" value={{recipe.id}}>
-      <button type="submit" class="right">Salvar receita</button>
-      {% include 'admin/recipes/fields.njk' %}
-    </form>
   </div>
 {% endblock %}

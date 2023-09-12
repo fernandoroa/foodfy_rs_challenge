@@ -42,14 +42,29 @@ select {
   font-family: inherit;
 }
 
-.inner-body,
-.body-content-admin {
+.inner-body {
   background-color: white;
   padding-left: 230px;
   padding-right: 230px;
   min-height: 100vh;
   padding-bottom: 100px;
   margin-bottom: 100px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.body-content-admin {
+  background-color: white;
+  min-height: 100vh;
+  padding-bottom: 100px;
+  margin-bottom: 100px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.admin_content {
+  padding-left: 230px;
+  padding-right: 230px;
 }
 
 header {
@@ -60,13 +75,15 @@ header {
 }
 
 header.admin {
+  padding-top: 30px;
   background: black;
-  margin-left: 230px;
+  padding-left: 230px;
   border-bottom: none;
-  height: 10px;
+  max-width: 100% !important;
 }
 
 footer {
+  width: 100%;
   margin: 60px 0;
   padding-top: 20px;
   height: 40px;
@@ -85,7 +102,7 @@ footer p {
 .links {
   display: grid;
   max-width: 450px;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
   margin: 0px 0px;
 }
 
@@ -361,6 +378,8 @@ ul li::before {
   grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
   padding-top: 25px;
+  grid-auto-rows: min-content;
+  height: fit-content;
 }
 
 .cards-manager {
@@ -379,6 +398,7 @@ ul li::before {
   padding-top: 5px;
 }
 
+.chef_card,
 .card,
 .cardRecipe {
   cursor: pointer;
@@ -399,6 +419,7 @@ ul li::before {
   border-radius: 10px;
 }
 
+.chef_card__visualizer_public,
 .chef_card__visualizer,
 .chef_card__chef_name,
 .card__title,
@@ -417,6 +438,7 @@ ul li::before {
   margin-top: 5vh;
 }
 
+.chef_card__visualizer_public,
 .chef_card__visualizer,
 .visualizer {
   font-size: 14px;
@@ -424,7 +446,7 @@ ul li::before {
   cursor: pointer;
   font-weight: bold;
 }
-
+.chef_cards,
 .chef_cards-manager {
   max-width: 940px;
   margin: 0 0;
@@ -432,8 +454,11 @@ ul li::before {
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 20px;
   padding-top: 25px;
+  grid-auto-rows: min-content;
+  height: fit-content;
 }
 
+.chef_card,
 .chef_card-manager {
   display: grid;
   grid-template-columns: 50px 1fr;
@@ -441,6 +466,7 @@ ul li::before {
   padding-top: 5px;
 }
 
+.chef_card__image-container img,
 .chef_card__image-container-manager img {
   object-fit: cover;
   width: 45px;
@@ -472,6 +498,11 @@ ul li::before {
 
 #chef__recipes_per_chef {
   text-align: center;
+}
+
+#chef__recipes_per_chef_list {
+  text-align: left;
+  padding-left: 4px;
 }
 
 button[type="submit"],

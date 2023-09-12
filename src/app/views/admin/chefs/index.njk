@@ -1,5 +1,6 @@
 {% extends "../layout.njk" %}
 {% block content %}
+<div class = "admin_content">
   <div class="same-line">
     <h1>Gerenciar Chefs</h1>
     <a href="/admin/chefs/create" class="button">Novo Chef</a>
@@ -23,4 +24,5 @@
   </section>
   <div class="pagination" data-page={{ pagination.page }} data-total={{ pagination.total }}></div>
   {% include "../../links.njk" %}
+</div>
 {% endblock %}

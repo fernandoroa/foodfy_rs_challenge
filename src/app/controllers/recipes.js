@@ -51,7 +51,7 @@ module.exports = {
           total: Math.ceil(recipes[0].total / limit),
           page,
         };
-        return res.render("recipes", { recipes, pagination, filter });
+        return res.render("recipes/recipes", { recipes, pagination, filter });
       },
     };
 
@@ -61,7 +61,7 @@ module.exports = {
     Recipe.find(req.params.id, function (recipe) {
       if (!recipe) return res.send("Missing recipe");
 
-      return res.render("display", { recipe });
+      return res.render("recipes/display", { recipe });
     });
   },
   index(req, res) {

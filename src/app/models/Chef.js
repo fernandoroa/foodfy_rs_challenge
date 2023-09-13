@@ -1,5 +1,5 @@
 const { date } = require("../../lib/utils");
-const db = require("../../config/db");
+const { db } = require("../../config/db");
 
 module.exports = {
   paginate(params) {
@@ -19,9 +19,12 @@ module.exports = {
     LIMIT $1 OFFSET $2
     `;
 
-    db.query(query, [limit, offset], function (err, results) {
-      if (err) throw "Database error!";
-      callback(results.rows);
+    db.any(query, [limit, offset])
+    .then(result => {
+      callback(result);
+    })
+    .catch(error => {
+      console.log("error:", error);
     });
   },
   create(data, callback) {
@@ -36,9 +39,12 @@ module.exports = {
 
     const values = [data.avatar_url, data.name, date(Date.now()).iso];
 
-    db.query(query, values, function (err, results) {
-      if (err) throw `Database error! ${err}`;
-      callback(results.rows[0]);
+    db.any(query, values)
+    .then(result => {
+      callback(result[0]);
+    })
+    .catch(error => {
+      console.log("error:", error);
     });
   },
   find(id, callback) {
@@ -47,9 +53,12 @@ module.exports = {
     FROM chefs
     WHERE chefs.id = $1`;
 
-    db.query(query, [+id], function (err, results) {
-      if (err) throw `Database error! ${err}`;
-      callback(results.rows[0]);
+    db.any(query, [+id])
+    .then(result => {
+      callback(result[0]);
+    })
+    .catch(error => {
+      console.log("error:", error);
     });
   },
   update(data, callback) {
@@ -63,19 +72,25 @@ module.exports = {
 
     const values = [data.avatar_url, data.name, +data.id];
 
-    db.query(query, values, function (err, results) {
-      if (err) throw `Database error! ${err}`;
-      callback();
+    db.any(query, values)
+    .then(result => {
+      callback(result[0]);
+    })
+    .catch(error => {
+      console.log("error:", error);
     });
   },
   delete(id, callback) {
-    db.query(`DELETE FROM chefs WHERE id = $1`, [id], function (err, results) {
-      if (err) throw `Database error! ${err}`;
-      return callback();
+    db.any(`DELETE FROM chefs WHERE id = $1`, [id])
+    .then(() => {
+      callback();
+    })
+    .catch(error => {
+      console.log("error:", error);
     });
   },
   findBy(id, callback) {
-    db.query(
+    db.any(
       `
     WITH table1 AS (
       SELECT chefs.id AS chefs_id, chefs.name AS chefs_name, recipes.title, recipes.image, recipes.id AS recipes_id
@@ -94,11 +109,12 @@ module.exports = {
     select * from table1
     left join table2 on table1.chefs_id = table2.chefs_id
     `,
-      [id],
-      function (err, results) {
-        if (err) throw `Database error! ${err}`;
-        callback(results.rows);
-      }
-    );
+      [id])
+    .then(result => {
+      callback(result);
+    })
+    .catch(error => {
+      console.log("error:", error);
+    });
   },
 };

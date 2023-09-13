@@ -1,5 +1,5 @@
 const { date } = require("../../lib/utils");
-const db = require("../../config/db");
+const { db } = require("../../config/db");
 
 module.exports = {
   create(data, callback) {
@@ -26,10 +26,13 @@ module.exports = {
       date(Date.now()).iso,
     ];
 
-    db.query(query, values, function (err, results) {
-      if (err) throw `Database error! ${err}`;
-      callback(results.rows[0]);
-    });
+    db.any(query, values)
+      .then(result => {
+        callback(result[0]);
+      })
+      .catch(error => {
+        console.log("error:", error);
+      });
   },
   find(id, callback) {
     const query = `
@@ -38,10 +41,13 @@ module.exports = {
     LEFT JOIN chefs ON (recipes.chef_id = chefs.id)
     WHERE recipes.id = $1`;
 
-    db.query(query, [+id], function (err, results) {
-      if (err) throw `Database error! ${err}`;
-      callback(results.rows[0]);
-    });
+    db.any(query, [+id])
+      .then(result => {
+        callback(result[0]);
+      })
+      .catch(error => {
+        console.log("error:", error);
+      });
   },
   update(data, callback) {
     const query = `
@@ -65,26 +71,31 @@ module.exports = {
       +data.id,
     ];
 
-    db.query(query, values, function (err, results) {
-      if (err) throw `Database error! ${err}`;
-      callback();
-    });
+    db.any(query, values)
+      .then(result => {
+        callback(result[0]);
+      })
+      .catch(error => {
+        console.log("error:", error);
+      });
   },
   delete(id, callback) {
-    db.query(
-      `DELETE FROM recipes WHERE id = $1`,
-      [id],
-      function (err, results) {
-        if (err) throw `Database error! ${err}`;
-        return callback();
-      }
-    );
+    db.any(`DELETE FROM recipes WHERE id = $1`, [id])
+      .then(() => {
+        callback();
+      })
+      .catch(error => {
+        console.log("error:", error);
+      });
   },
   chefsSelectOptions(callback) {
-    db.query(`SELECT name, id FROM chefs`, function (err, results) {
-      if (err) throw `Database error! ${err}`;
-      callback(results.rows);
-    });
+    db.any(`SELECT name, id FROM chefs`)
+      .then(result => {
+        callback(result);
+      })
+      .catch(error => {
+        console.log("error:", error);
+      });
   },
   paginate(params) {
     const { filter, limit, offset, callback } = params;

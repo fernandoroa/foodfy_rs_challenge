@@ -102,33 +102,59 @@ module.exports = {
 
     let query = "",
       filterQuery = "",
-      totalQuery = `(
+      totalQueryOrig = totalQuery = `(
           SELECT count(*) FROM recipes 
         )`;
 
     if (filter) {
       filterQuery = `
       WHERE recipes.title ILIKE '%${filter}%'
-      OR chef_name ILIKE '%${filter}%'
+      OR chefs.name ILIKE '%${filter}%'
       `;
       totalQuery = `(
         SELECT count(*) FROM recipes 
-        ${filterQuery}        
+        ${filterQuery}
       )`;
     }
 
-    query = `
-    SELECT recipes.*, chefs.name AS chef_name, ${totalQuery} AS total
-    FROM recipes
-    LEFT JOIN chefs ON (recipes.chef_id = chefs.id)
-    ${filterQuery}
-    ORDER BY recipes.title
-    LIMIT $1 OFFSET $2
+  query = `
+    create or replace function get_all_data_if_filter_returns_nothing()
+      returns table(id int, chef_id int, image text, title text, ingredients text[], preparation text[], information text,
+        created_at timestamp, name text, total bigint, status text)
+    language plpgsql
+    as
+    $_$
+    declare
+    begin
+      RETURN QUERY
+      SELECT recipes.*, chefs.name, ${totalQuery} AS total,
+      'filter' AS status
+      FROM recipes
+      LEFT JOIN chefs ON (recipes.chef_id = chefs.id)
+      ${filterQuery}
+      ORDER BY recipes.title
+      LIMIT $1 OFFSET $2;
+
+      IF FOUND THEN return; end if;
+
+      RETURN QUERY
+      SELECT recipes.*, chefs.name, ${totalQueryOrig} AS total,
+      'no_filter' AS status
+      FROM recipes
+      LEFT JOIN chefs ON (recipes.chef_id = chefs.id)
+      ORDER BY recipes.title
+      LIMIT $1 OFFSET $2;
+    end;
+    $_$;
+    select * from get_all_data_if_filter_returns_nothing();
     `;
 
-    db.query(query, [limit, offset], function (err, results) {
-      if (err) throw "Database error!";
-      callback(results.rows);
-    });
+    db.multi(query, [limit, offset])
+      .then(result => {
+        callback(result[1]);
+      })
+      .catch(error => {
+        console.log("error:", error);
+      });
   },
 };

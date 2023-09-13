@@ -5,7 +5,7 @@
     <h1>Gerenciar receitas</h1>
     <a href="/admin/recipes/create" class="button">Nova Receita</a>
   </div>
-  <section class="cards-manager">
+  <section class="cards-manager recipe_cards" data-status={{ pagination.status }}>
     {% for recipe in recipes %}
       <div class="cardRecipeManager">
         <div class="card__image-container-manager">

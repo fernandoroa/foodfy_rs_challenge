@@ -46,6 +46,15 @@ function paginate(selectedPage, totalPages) {
   return pages;
 }
 
+function addStatus(recipe_cards) {
+  const status = recipe_cards.dataset.status;  
+  if (status == "no_filter") {
+    const span = document.createElement("span");
+    span.textContent = "Nada encontrado, mostrando tudo"
+    recipe_cards.insertAdjacentElement("beforebegin", span);
+  }
+}
+
 function createPagination(pagination) {
   const filter = pagination.dataset.filter;
   const page_in_use = +pagination.dataset.page;
@@ -71,8 +80,13 @@ function createPagination(pagination) {
   pagination.innerHTML = elements;
 }
 
+const recipe_cards = document.querySelector(".recipe_cards");
 const pagination = document.querySelector(".pagination");
 
 if (pagination) {
   createPagination(pagination);
+}
+
+if (recipe_cards) {
+  addStatus(recipe_cards)
 }

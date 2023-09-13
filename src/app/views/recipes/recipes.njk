@@ -1,6 +1,6 @@
 {% extends "layout.njk" %}
 {% block content %}
-  <div>
+<div class="content-block">
   <section class="allcards recipe_cards" data-status={{ pagination.status }}>
     {% for recipe in recipes %}
       <div class="cardRecipe" id="{{ recipe.id }}">

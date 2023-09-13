@@ -10,7 +10,19 @@ https://github.com/rocketseat-education/bootcamp-launchbase-desafios-05/blob/mas
 
 #### Summary
 
-* under construction
+* Migrate data that were in a `.json` to a PostgreSQL database
+* Create *chef* pages, such as `create`, `list`, `edit`.
+* Create a filter field to search for recipes
+
+* Create a *main*, *details*, *edition* and *creation* pages with buttons as in:    
+  * https://rawcdn.githack.com/rocketseat-education/bootcamp-launchbase-desafios-05/0e2651f64b0e06c8c23e3b86b10cfda55c6bfbd4/layouts/admin/index.html  
+  * https://rawcdn.githack.com/rocketseat-education/bootcamp-launchbase-desafios-05/0e2651f64b0e06c8c23e3b86b10cfda55c6bfbd4/layouts/site/index.html
+  
+  * or paste this links:
+  https://raw.githubusercontent.com/rocketseat-education/bootcamp-launchbase-desafios-05/master/layouts/admin/index.html  
+  https://raw.githubusercontent.com/rocketseat-education/bootcamp-launchbase-desafios-05/master/layouts/site/index.html  
+  into: https://raw.githack.com/
+
 
 ### How to run 
 

@@ -1,4 +1,15 @@
 {% extends "../layout.njk" %}
+{% block filter %}
+  <form id="form-filter" action="/admin/recipes" method="GET">
+    <input 
+      type="text"
+      name="filter"
+      placeholder="Buscar uma receita"
+      value = {{filter}}
+    >
+  </form>
+  <button type="submit" form = "form-filter">Buscar </button>
+{% endblock %}
 {% block content %}
 <div class = "admin_content content-block">
   <div class="same-line">

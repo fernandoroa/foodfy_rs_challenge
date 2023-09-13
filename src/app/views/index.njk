@@ -1,0 +1,58 @@
+{% extends "layout.njk" %}
+
+{% block filter %}
+  <form id="form-filter" action="/recipes" method="GET">
+    <input 
+      type="text"
+      name="filter"
+      placeholder="Buscar uma receita"
+      value = {{filter}}
+    >
+  </form>
+  <button type="submit" form = "form-filter">Buscar </button>
+{% endblock %}
+{% block content %}
+
+  <div class="banner">
+    <div id="banner_text">
+      <h1>As melhores receitas</h1>
+      <p>
+        Aprenda a construir os melhores pratos
+        com receitas criadas por profissionais
+        do mundo inteiro.
+      </p>
+    </div>
+    <div id="banner_img">
+      <img src="layassets/119236-OQ05QX-268.png" alt="Noel">
+    </div>
+  </div>
+
+  <div id="wrapper">
+    <h1>Mais acessadas</h1>
+  </div>
+
+  <section class="cards">
+    {% for recipe in recipes %}
+      <div class="cardRecipe" id="{{recipe.id}}">
+        <div class="card__image-container">
+          <img src="{{recipe.image}}" alt="{{recipe.title}}">
+        </div>
+        <div class="card__title">
+          <p>{{recipe.title}}</p>
+        </div>
+        <div class="card__chef_name">
+          <p>{{recipe.chef_name}}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </section>
+
+  {% include "links.njk" %}
+
+  <div class="pagination"
+    data-page={{pagination.page}}
+    data-total={{pagination.total}}
+    data-filter={{filter}}
+  ></div>
+{% endblock %}
+

@@ -1,0 +1,42 @@
+{% extends "../layout.njk" %}
+{% block filter %}
+  <form id="form-filter" action="/admin/recipes" method="GET">
+    <input 
+      type="text"
+      name="filter"
+      placeholder="Buscar uma receita"
+      value = {{filter}}
+    >
+  </form>
+  <button type="submit" form = "form-filter">Buscar </button>
+{% endblock %}
+{% block content %}
+<div class = "admin_content content-block">
+  <div class="same-line">
+    <h1>Gerenciar receitas</h1>
+    <a href="/admin/recipes/create" class="button">Nova Receita</a>
+  </div>
+  <section class="cards-manager recipe_cards" data-status={{ pagination.status }}>
+    {% for recipe in recipes %}
+      <div class="cardRecipeManager">
+        <div class="card__image-container-manager">
+          <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+        </div>
+        <div class="card_texts">
+          <div class="card__title">
+            <p>{{ recipe.title }}</p>
+          </div>
+          <div class="card__chef_name">
+            <p>{{ recipe.chef_name }}</p>
+          </div>
+          <div class="visualizer" id="{{ recipe.id }}">
+            <p>Visualizar</p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </section>
+  <div class="pagination" data-page={{ pagination.page }} data-total={{ pagination.total }} data-filter={{ filter }}></div>
+  {% include "../../links.njk" %}
+</div>
+{% endblock %}

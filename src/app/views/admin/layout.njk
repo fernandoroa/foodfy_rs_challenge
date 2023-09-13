@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+      <title>Foodfy</title>
+    {% endblock %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="body-content-admin">
+    <header class="admin">
+      <div class="links admin">
+        <div class="logo">
+          <a href="/admin">
+            <img src="/foodassets/logo_inverted.png">
+          </a>
+        </div>
+        <a href="/admin/recipes" id = "admin_recipes_id" >RECEITAS</a>
+        <a href="/admin/chefs" id = "admin_chefs_id" >CHEFS</a>
+        <div class = "filter_container">
+          {% block filter%}{% endblock%}
+        </div>
+      </div>
+    </header class="admin">
+      {% block content %}{% endblock %}
+    </div>
+    <script src="/scripts.js"></script>
+  </body>
+</html>

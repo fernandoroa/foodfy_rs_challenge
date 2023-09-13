@@ -2,18 +2,18 @@
 
 {% block content %}
 
-<div class="recipe" id="{{item.id}}">
+<div class="recipe" id="{{recipe.id}}">
 
   <div class="recipe__recipe-container">
-    <img src="{{item.image}}" alt="{{item.title}}">
+    <img src="{{recipe.image}}" alt="{{recipe.title}}">
   </div>
 
   <div id="recipe_title">
-    <h1>{{ item.title }}</h1>
+    <h1>{{ recipe.title }}</h1>
   </div>
 
-  <div id="recipe__author">
-    <p>por {{ item.author }}</p>
+  <div id="recipe__chef_name">
+    <p>por {{ recipe.chef_name }}</p>
   </div>
 
   <div class="recipe__section" id="in">
@@ -24,8 +24,8 @@
       </div>
     </div>
     <div class="ingredients__content">
-        <ul>
-      {% for it in item.ingredients %}
+      <ul>
+      {% for it in recipe.ingredients %}
         {% if it != '' %}
         <li> {{ it }} </li>
         {% endif %}
@@ -44,9 +44,9 @@
     </div>
     <div class="preparation__content">
       <ul>
-      {% for it in item.preparation %}
+      {% for it in recipe.preparation %}
         {% if it != '' %}
-      <li> {{ it }} </li>
+          <li> {{ it }} </li>
         {% endif %}
       {% endfor %}
       </ul>
@@ -55,15 +55,15 @@
 
   <div class="recipe__section" id="info">
 
-    {% if item.information != '' %}
+    {% if recipe.information != '' %}
       <div class="title_button_container">
-            <h2>Informações adicionais</h2>
+        <h2>Informações adicionais</h2>
         <div class="button">
-            <span>ESCONDER</span>
-          </div>
+          <span>ESCONDER</span>
+        </div>
       </div>
       <div class="information__content">
-        <p>{{ item.information }}</p>
+        <p>{{ recipe.information }}</p>
       </div>
     {% endif %}
   </div>

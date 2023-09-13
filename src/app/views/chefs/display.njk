@@ -1,0 +1,41 @@
+{% extends "../layout.njk" %}
+{% block content %}
+  <div class="chef" id="{{ chef.id }}">
+    <div class="chef_picture_text">
+      <div class="chef__big_image-container">
+        <img src="{{ chef.avatar_url }}" alt="{{ chef.name }}">
+      </div>
+      <div id="chef__name">
+        <h1>Chef: {{ chef.name }}</h1>
+      </div>
+      <div id="chef__recipes_per_chef">
+        <p>{{ chef_recipes[0].chef_recipes_total }}
+          {% if chef_recipes[0].chef_recipes_total == 1 %}
+            receita {% else %} receitas
+          {% endif %}
+        </p>
+      </div>
+    </div>
+    {% if chef_recipes[0].chef_recipes_total >= 1 %}
+      <h2>Receitas</h2>
+      <section class="cards">
+        {% for recipe in chef_recipes %}
+          <div class="cardRecipe" id="{{ recipe.recipes_id}}">
+            <div class="card__image-container">
+              <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+            </div>
+            <div class="card_texts">
+              <div class="card__title">
+                <p>{{ recipe.title }}</p>
+              </div>
+              <div class="card__chef_name">
+                <p>{{ recipe.chef_name }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </section>
+    {% endif %}
+  </div>
+  {% include "links.njk" %}
+{% endblock %}

@@ -1,29 +1,34 @@
-<input type="hidden" name="id" value={{item.id}}> 
 <div class="recipe__section" id="title">
   <h2>Nome da Receita</h2>
-  <input type="text" name="title" placeholder="Nome da receita" value="{{ item.title }}">
+  <input type="text" name="title" placeholder="Adicione nome" value="{{ recipe.title }}">
 </div>
 
-<div class="recipe__section" id="author">
-    <h2>Nome do Autor</h2>
-    <input type="text" name="author" placeholder="Autor" value="{{ item.author }}">
+<div class="recipe__section" id="chef_name">
+  <h2>Nome do Chef</h2>
+  <select name="chef">
+    {% for chef in chefOptions %}
+      <option value="{{chef.id}}" {% if recipe.chef_id == chef.id %} selected {% endif %}>
+        {{chef.name}}
+      </option>
+    {% endfor %}}
+  </select>
 </div>
 
 <div class="recipe__section" id="imagen_url">
       <h2>Imagen da receita</h2>
-      <input type="url" name="image" placeholder="http://" value="{{ item.image }}">
+      <input type="url" name="image" placeholder="http://" value="{{ recipe.image }}">
 </div>
 
 <div class="recipe__section" id="ingredients">
   <h2>Ingredientes</h2>          
-        {% for it in item.ingredients %}
+        {% for it in recipe.ingredients %}
           {% if it != '' %}
             <div class="ingredient">
               <input type="text" name="ingredients[]" value="{{ it }}" placeholder="Adicione Ingrediente">
             </div>
           {% endif %}
         {% endfor %}
-        {% if item.ingredients.length == null %}
+        {% if recipe.ingredients.length == null %}
           <div class="ingredient">
             <input type="text" name="ingredients[]" value="" placeholder="Adicione Ingrediente">
           </div>
@@ -33,14 +38,14 @@
 
 <div class="recipe__section" id="steps">
   <h2>Modo de preparo</h2>          
-        {% for step in item.preparation %}
+        {% for step in recipe.preparation %}
           {% if step != '' %}
             <div class="step">
               <input type="text" name="preparation[]" value="{{ step }}" placeholder="Adicione Passo">
             </div>
           {% endif %}
         {% endfor %}
-        {% if item.preparation.length == null %}
+        {% if recipe.preparation.length == null %}
           <div class="step">
             <input type="text" name="preparation[]" value="" placeholder="Adicione Passo">
           </div>
@@ -52,5 +57,5 @@
 
 <div class="recipe__section" id="info">
   <h2>Informações adicionais</h2>
-  <textarea id="info" name="information">{{ item.information }}</textarea>
+  <textarea id="info" name="information">{{ recipe.information }}</textarea>
 </div>

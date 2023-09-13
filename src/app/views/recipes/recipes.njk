@@ -1,0 +1,37 @@
+{% extends "layout.njk" %}
+{% block filter %}
+  <form id="form-filter" action="/recipes" method="GET">
+    <input 
+      type="text"
+      name="filter"
+      placeholder="Buscar uma receita"
+      value = {{filter}}
+    >
+  </form>
+  <button type="submit" form = "form-filter">Buscar </button>
+{% endblock %}
+{% block content %}
+<div class="content-block">
+  <section class="allcards recipe_cards" data-status={{ pagination.status }}>
+    {% for recipe in recipes %}
+      <div class="cardRecipe" id="{{ recipe.id }}">
+        <div class="card__image-container">
+          <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+        </div>
+        <div class="card__title">
+          <p>{{ recipe.title }}</p>
+        </div>
+        <div class="card__chef_name">
+          <p>{{ recipe.chef_name }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </section>
+  <div class="pagination" data-page={{ pagination.page }}
+    data-total={{ pagination.total }} 
+    data-filter={{ filter }}
+  >
+  </div>
+  {% include "links.njk" %}
+</div>
+{% endblock %}

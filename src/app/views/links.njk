@@ -1,0 +1,69 @@
+<script>
+  const cardsRecipes = document.querySelectorAll('.cardRecipe')
+  if (cardsRecipes) {
+    for (let card of cardsRecipes) {
+      card.addEventListener("click", function () {
+        const dishId = card.getAttribute("id")
+        window.location.href = `/recipes/${dishId}`
+      })
+    }
+  }
+
+  const chefCards = document.querySelectorAll('.chef_card')
+  if (chefCards) {
+    for (let card of chefCards) {
+      card.addEventListener("click", function () {
+        const chefId = card.getAttribute("id")
+        window.location.href = `/chefs/${chefId}`
+      })
+    }
+  }
+
+  const cardsRecipesManager = document.querySelectorAll('.visualizer')
+  if (cardsRecipesManager) {
+    for (let card of cardsRecipesManager) {
+      card.addEventListener("click", function () {
+        const dishId = card.getAttribute("id")
+        window.location.href = `/admin/recipes/${dishId}`
+      })
+    }
+  }
+  
+  const chefCardsManager = document.querySelectorAll('.chef_card__visualizer')
+  if (chefCardsManager) {
+    for (let card of chefCardsManager) {
+      card.addEventListener("click", function () {
+        const chefId = card.getAttribute("id")
+        window.location.href = `/admin/chefs/${chefId}`
+      })
+    }
+  }
+
+  const ingredients__content = document.querySelector('.ingredients__content')
+  const preparation__content = document.querySelector('.preparation__content')
+  const information__content = document.querySelector('.information__content')
+
+  var obj = {
+    "in": ingredients__content,
+    "pr": preparation__content,
+    "info": information__content
+  }
+
+  const buttons = document.querySelectorAll('.button')
+  if (buttons && ingredients__content) {
+    for (let button of buttons) {
+      button.addEventListener("click", function () {
+        var parentDiv = button.parentNode.parentNode;
+        var id = parentDiv.getAttribute("id");
+        const current_text = button.querySelector("span").innerText
+        if (current_text == "ESCONDER") {
+          obj[id].classList.add('inactive')
+          button.querySelector("span").innerText = "MOSTRAR"
+        } else if (current_text == "MOSTRAR") {
+          obj[id].classList.remove('inactive')
+          button.querySelector("span").innerText = "ESCONDER"
+        }
+      })
+    }
+  }
+</script>

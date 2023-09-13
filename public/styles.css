@@ -68,14 +68,12 @@ select {
 }
 
 header {
-  padding-top: 30px;
   border-bottom: 3px solid var(--color-black-bottom);
   background: white;
   max-width: 940px;
 }
 
 header.admin {
-  padding-top: 30px;
   background: black;
   padding-left: 230px;
   border-bottom: none;
@@ -99,25 +97,59 @@ footer p {
   line-height: 16px;
 }
 
+.content-block {
+  margin-top: 25px;
+}
+
+.content-block span {
+  font-weight: bold;
+  margin: auto;
+  display: table;
+}
+
 .links {
   display: grid;
-  max-width: 450px;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  margin: 0px 0px;
+  grid-template-columns: 2fr 1fr 1fr 1fr 6fr;
+  grid-gap: 1rem;
+  align-items: center;
+  justify-items: center;
+  height: 80px;
+}
+
+.links.admin {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 6fr;
+  grid-gap: 1rem;
+  align-items: center;
+  justify-items: center;
+  height: 80px;
+  padding-right: 230px;
+}
+
+.links input {
+  margin-top: 0;
+}
+
+.logo {
+  margin-right: auto;
+}
+
+.filter_container {
+  display: inline-flex;
+  flex-direction: row;
+  margin-left: auto;
 }
 
 .links a {
   color: black;
   font-size: 16px;
   line-height: 26px;
-  padding-bottom: 35px;
   text-decoration: none;
 }
 
 header.admin .links a {
   font-size: 12px;
   line-height: 28px;
-  padding-bottom: 35px;
   text-decoration: none;
   color: var(--color-inter-gray);
   cursor: pointer;
@@ -228,8 +260,8 @@ header.admin .links a.active {
 }
 
 .same-line {
-  padding-top: 32px;
-  margin-top: 5vh;
+  padding-top: 16px;
+  margin-top: 2vh;
   display: flex;
   justify-content: flex-end;
 }

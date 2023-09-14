@@ -72,8 +72,8 @@ module.exports = {
     ];
 
     db.any(query, values)
-      .then(result => {
-        callback(result[0]);
+      .then(() => {
+        callback();
       })
       .catch(error => {
         console.log("error:", error);

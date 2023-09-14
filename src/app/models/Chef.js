@@ -73,8 +73,8 @@ module.exports = {
     const values = [data.avatar_url, data.name, +data.id];
 
     db.any(query, values)
-    .then(result => {
-      callback(result[0]);
+    .then(() => {
+      callback();
     })
     .catch(error => {
       console.log("error:", error);

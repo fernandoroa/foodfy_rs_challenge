@@ -13,8 +13,8 @@ module.exports = {
       limit,
       offset,
       callback(recipes) {
-        let status = recipes[0].status
-        let recipes_total = recipes[0].total || 1
+        let status = recipes[0].status;
+        let recipes_total = recipes[0].total || 1;
         const pagination = {
           status: status,
           total: Math.ceil(recipes_total / limit),
@@ -38,8 +38,8 @@ module.exports = {
       limit,
       offset,
       callback(recipes) {
-        let status = recipes[0].status
-        let recipes_total = recipes[0].total || 1
+        let status = recipes[0].status;
+        let recipes_total = recipes[0].total || 1;
         const pagination = {
           status: status,
           total: Math.ceil(recipes_total / limit),
@@ -50,7 +50,7 @@ module.exports = {
     };
 
     Recipe.paginate(params);
-  },  
+  },
   about(req, res) {
     const about = {
       title_h1: "Sobre o Foodfy",
@@ -62,7 +62,7 @@ module.exports = {
       title_h2_2: "Nossas receitas",
     };
     return res.render("about", { about });
-  },  
+  },
   display(req, res) {
     Recipe.find(req.params.id, function (recipe) {
       if (!recipe) return res.send("Missing recipe");
@@ -82,14 +82,18 @@ module.exports = {
       limit,
       offset,
       callback(recipes) {
-        let status = recipes[0].status
-        let recipes_total = recipes[0].total || 1
+        let status = recipes[0].status;
+        let recipes_total = recipes[0].total || 1;
         const pagination = {
           status: status,
           total: Math.ceil(recipes_total / limit),
           page,
         };
-        return res.render("admin/recipes/index", { recipes, pagination, filter });
+        return res.render("admin/recipes/index", {
+          recipes,
+          pagination,
+          filter,
+        });
       },
     };
     Recipe.paginate(params);

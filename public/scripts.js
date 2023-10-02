@@ -47,10 +47,10 @@ function paginate(selectedPage, totalPages) {
 }
 
 function addStatus(recipe_cards) {
-  const status = recipe_cards.dataset.status;  
+  const status = recipe_cards.dataset.status;
   if (status == "no_filter") {
     const span = document.createElement("span");
-    span.textContent = "Nada encontrado, mostrando tudo"
+    span.textContent = "Nada encontrado, mostrando tudo";
     recipe_cards.insertAdjacentElement("beforebegin", span);
   }
 }
@@ -88,5 +88,5 @@ if (pagination) {
 }
 
 if (recipe_cards) {
-  addStatus(recipe_cards)
+  addStatus(recipe_cards);
 }

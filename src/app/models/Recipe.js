@@ -117,7 +117,7 @@ module.exports = {
       )`;
     }
 
-  query = `
+    query = `
     create or replace function get_all_data_if_filter_returns_nothing()
       returns table(id int, chef_id int, image text, title text, ingredients text[], preparation text[], information text,
         created_at timestamp, name text, total bigint, status text)

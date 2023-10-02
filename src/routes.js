@@ -1,8 +1,8 @@
 const express = require("express");
-const routes  = express.Router()
+const routes = express.Router();
 
-const recipes = require('./app/controllers/recipes')
-const chefs = require('./app/controllers/chefs')
+const recipes = require("./app/controllers/recipes");
+const chefs = require("./app/controllers/chefs");
 
 routes.get("/", function(req, res){
 	return res.redirect("/index")
@@ -19,9 +19,9 @@ routes.get("/chefs/:id", chefs.display);
 
 //*** admin ***/
 
-routes.get("/admin", function(req, res){
-	return res.redirect("/admin/recipes")
-})
+routes.get("/admin", function (req, res) {
+  return res.redirect("/admin/recipes");
+});
 
 // chefs
 routes.get("/admin/chefs", chefs.index);
@@ -41,4 +41,4 @@ routes.put("/admin/recipes", recipes.put);
 routes.delete("/admin/recipes", recipes.delete);
 routes.get("/admin/recipes/:id", recipes.show);
 
-module.exports = routes
+module.exports = routes;

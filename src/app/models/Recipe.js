@@ -41,29 +41,21 @@ module.exports = {
     LEFT JOIN chefs ON (recipes.chef_id = chefs.id)
     WHERE recipes.id = $1`;
 
-    db.any(query, [+id])
-      .then(result => {
-        callback(result[0]);
-      })
-      .catch(error => {
-        console.log("error:", error);
-      });
+    return db.any(query, [+id]);
   },
-  update(data, callback) {
+  update(data) {
     const query = `
       UPDATE recipes
       SET 
       chef_id=($1),
-      image=($2),
-      title=($3),
-      ingredients=($4),
-      preparation=($5),
-      information=($6)
-      WHERE id = $7
+      title=($2),
+      ingredients=($3),
+      preparation=($4),
+      information=($5)
+      WHERE id = $6
     `;
     const values = [
       +data.chef,
-      data.image,
       data.title,
       data.ingredients,
       data.preparation,
@@ -71,13 +63,7 @@ module.exports = {
       +data.id,
     ];
 
-    db.any(query, values)
-      .then(() => {
-        callback();
-      })
-      .catch(error => {
-        console.log("error:", error);
-      });
+    return db.any(query, values);
   },
   delete(id, callback) {
     db.any(`DELETE FROM recipes WHERE id = $1`, [id])
@@ -89,13 +75,7 @@ module.exports = {
       });
   },
   chefsSelectOptions(callback) {
-    db.any(`SELECT name, id FROM chefs`)
-      .then(result => {
-        callback(result);
-      })
-      .catch(error => {
-        console.log("error:", error);
-      });
+    return db.any(`SELECT name, id FROM chefs`);
   },
   paginate(params) {
     const { filter, limit, offset, callback } = params;
@@ -156,5 +136,15 @@ module.exports = {
       .catch(error => {
         console.log("error:", error);
       });
+  },
+  files(id) {
+    return db.any(
+      `
+    SELECT files.name, files.path, recipe_id, files.id AS file_id FROM recipe_files
+    LEFT JOIN files ON (recipe_files.file_id = files.id)
+    WHERE recipe_id = $1;
+    `,
+      [id]
+    );
   },
 };

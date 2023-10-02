@@ -1,4 +1,5 @@
 const Recipe = require("../models/Recipe");
+const File = require("../models/File");
 
 module.exports = {
   main(req, res) {
@@ -110,13 +111,23 @@ module.exports = {
       return res.render("admin/recipes/show", { recipe });
     });
   },
-  edit(req, res) {
-    Recipe.find(req.params.id, function (recipe) {
-      if (!recipe) return res.send("Missing recipe");
-
-      Recipe.chefsSelectOptions(function (options) {
-        return res.render("admin/recipes/edit", { recipe, chefOptions: options });
-      });
+  async edit(req, res) {
+    let results = await Recipe.find(req.params.id);
+    const recipe = await results[0];
+    if (!recipe) return res.send("Missing recipe - edit");
+    let options = await Recipe.chefsSelectOptions();
+    let files = await Recipe.files(recipe.id);
+    files = files.map((file) => ({
+      ...file,
+      src: `${req.protocol}://${req.headers.host}${file.path.replace(
+        "public",
+        ""
+      )}`,
+    }));
+    return res.render("admin/recipes/edit", {
+      recipe,
+      chefOptions: options,
+      files,
     });
   },
   post(req, res) {
@@ -124,12 +135,36 @@ module.exports = {
       return res.redirect(`/recipes/${recipe.id}`);
     });
   },
-  put(req, res) {
+  async put(req, res) {
     if (req.body.chef_id == "") return res.send("please fill all fields");
 
-    Recipe.update(req.body, function () {
-      return res.redirect(`/recipes/${req.body.id}`);
-    });
+    if (req.files.length != 0) {
+      const newFilesPromise = req.files.map((file) => File.create({ ...file }));
+      const file_res = await Promise.all(newFilesPromise);
+      let id_array = file_res.map((file_res) => file_res[0].id);
+
+      const newRecipeFilesPromise = id_array.map((id) =>
+        File.create_file_relation({ file_id: id, recipe_id: req.body.id })
+      );
+      await Promise.all(newRecipeFilesPromise);
+    }
+
+    if (req.body.removed_files) {
+      const removedFiles = req.body.removed_files.split(",");
+      removedFiles.splice(-1);
+      const removedRecipeFilesPromise = removedFiles.map((file_id) =>
+        File.delete_file_relation(file_id, req.body.id)
+      );
+      const removedFilesPromise = removedFiles.map((file_id) =>
+        File.delete(file_id)
+      );
+      await Promise.all(removedRecipeFilesPromise);
+      await Promise.all(removedFilesPromise);
+    }
+
+    await Recipe.update(req.body);
+    // return res.redirect(`/recipes/${req.body.id}`);
+    return res.redirect(`/admin/recipes/${req.body.id}/edit`);
   },
   delete(req, res) {
     Recipe.delete(req.body.id, function () {

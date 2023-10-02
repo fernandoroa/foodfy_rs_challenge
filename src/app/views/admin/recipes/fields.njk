@@ -2,7 +2,24 @@
   <h2>Nome da Receita</h2>
   <input type="text" name="title" placeholder="Adicione nome" value="{{ recipe.title }}">
 </div>
-
+<div class="recipe__section">
+  <h2>Fotos da receita</h2>
+  <div id="photos-preview-and-upload">
+    <div id="photos-upload">
+      <input id="photos-input" type="file" name="photos" multiple accept="image/*" onchange="PhotosUpload.handleFileInput(event)">
+      <i class="material-icons">add</i>
+    </div>
+    {% if files %}
+      {% for image in files %}
+        <div class="photo" id="{{ image.file_id }}">
+          <img src="{{ image.src }}" alt="{{ image.name }}">
+          <i class="material-icons" onclick="PhotosUpload.removeOldPhoto(event)">close</i>
+        </div>
+      {% endfor %}
+    {% endif %}
+    <input type="hidden" name="removed_files">
+  </div>
+</div>
 <div class="recipe__section" id="chef_name">
   <h2>Nome do Chef</h2>
   <select name="chef">
@@ -13,12 +30,6 @@
     {% endfor %}}
   </select>
 </div>
-
-<div class="recipe__section" id="imagen_url">
-      <h2>Imagen da receita</h2>
-      <input type="url" name="image" placeholder="http://" value="{{ recipe.image }}">
-</div>
-
 <div class="recipe__section" id="ingredients">
   <h2>Ingredientes</h2>
   {% for it in recipe.ingredients %}

@@ -10,7 +10,7 @@
       <form id="form-delete" action="/admin/recipes?_method=DELETE" method="POST">
         <input type="hidden" name="id" value="{{recipe.id}}">
       </form>
-    <form id="form-put" action="/admin/recipes?_method=PUT" method="POST">
+      <form id="form-put" action="/admin/recipes?_method=PUT" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="id" value="{{recipe.id}}">
         {% include 'admin/recipes/fields.njk' %}
       </form>

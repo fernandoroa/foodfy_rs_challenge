@@ -3,6 +3,7 @@ const routes = express.Router();
 
 const recipes = require("./app/controllers/recipes");
 const chefs = require("./app/controllers/chefs");
+const multer = require("./app/middlewares/multer");
 
 routes.get("/", function(req, res){
 	return res.redirect("/index")
@@ -37,7 +38,7 @@ routes.get("/admin/recipes", recipes.index);
 routes.get("/admin/recipes/create", recipes.create);
 routes.post("/admin/recipes", recipes.post);
 routes.get("/admin/recipes/:id/edit", recipes.edit);
-routes.put("/admin/recipes", recipes.put);
+routes.put("/admin/recipes", multer.array("photos", 5), recipes.put);
 routes.delete("/admin/recipes", recipes.delete);
 routes.get("/admin/recipes/:id", recipes.show);
 

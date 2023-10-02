@@ -550,6 +550,33 @@ a.button {
   cursor: pointer;
 }
 
+button[type="submit"][disabled] {
+  background-color: var(--color-inter-gray);
+  cursor: not-allowed;
+}
+
+.button_tooltip_container {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.button_tooltip_container .tooltip_text {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+}
+
+.button_tooltip_container:hover .tooltip_text.active {
+  visibility: visible;
+}
+
 .right {
   display: flex;
   justify-content: flex-end;
@@ -632,6 +659,7 @@ textarea {
   background-color: var(--color-light-gray);
   border-radius: var(--border-radius);
   min-height: 120px;
+  box-sizing: border-box;
 }
 
 input[type="file"]::file-selector-button {
@@ -677,11 +705,6 @@ input[type="file"]::file-selector-button {
   color: red;
   opacity: 0;
   background: var(--color-light-gray-alpha);
-}
-
-#photos-upload {
-  cursor: pointer;
-  box-sizing: border-box;
 }
 
 #photos-upload i {

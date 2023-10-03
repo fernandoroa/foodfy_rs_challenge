@@ -6,19 +6,17 @@ module.exports = {
     const query = `
       INSERT INTO recipes (
         chef_id,
-        image,
         title,
         ingredients,
         preparation,
         information,
         created_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7)
+      ) VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING id
     `;
 
     const values = [
       +data.chef,
-      data.image,
       data.title,
       data.ingredients,
       data.preparation,
@@ -26,15 +24,9 @@ module.exports = {
       date(Date.now()).iso,
     ];
 
-    db.any(query, values)
-      .then(result => {
-        callback(result[0]);
-      })
-      .catch(error => {
-        console.log("error:", error);
-      });
+    return db.any(query, values)
   },
-  find(id, callback) {
+  find(id) {
     const query = `
     SELECT recipes.*, chefs.name AS chef_name
     FROM recipes
@@ -74,7 +66,7 @@ module.exports = {
         console.log("error:", error);
       });
   },
-  chefsSelectOptions(callback) {
+  chefsSelectOptions() {
     return db.any(`SELECT name, id FROM chefs`);
   },
   paginate(params) {

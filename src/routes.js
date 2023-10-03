@@ -36,7 +36,7 @@ routes.get("/admin/chefs/:id", chefs.show);
 // recipes
 routes.get("/admin/recipes", recipes.index);
 routes.get("/admin/recipes/create", recipes.create);
-routes.post("/admin/recipes", recipes.post);
+routes.post("/admin/recipes", multer.array("photos", 5), recipes.post);
 routes.get("/admin/recipes/:id/edit", recipes.edit);
 routes.put("/admin/recipes", multer.array("photos", 5), recipes.put);
 routes.delete("/admin/recipes", recipes.delete);

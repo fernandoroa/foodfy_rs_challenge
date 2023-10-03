@@ -99,10 +99,9 @@ module.exports = {
     };
     Recipe.paginate(params);
   },
-  create(req, res) {
-    Recipe.chefsSelectOptions(function (options) {
-      return res.render("admin/recipes/create", { chefOptions: options });
-    });
+  async create(req, res) {
+    let options = await Recipe.chefsSelectOptions();
+    return res.render("admin/recipes/create", { chefOptions: options });
   },
   show(req, res) {
     Recipe.find(req.params.id, function (recipe) {
@@ -130,10 +129,24 @@ module.exports = {
       files,
     });
   },
-  post(req, res) {
-    Recipe.create(req.body, function (recipe) {
-      return res.redirect(`/recipes/${recipe.id}`);
-    });
+  async post(req, res) {
+    if (req.files.length == 0)
+      return res.send("Please send at least one image");
+
+    let results = await Recipe.create(req.body);
+    const RecipeId = await results[0].id;
+
+    const newFilesPromise = req.files.map((file) => File.create({ ...file }));
+    const file_res = await Promise.all(newFilesPromise);
+    let id_array = file_res.map((file_res) => file_res[0].id);
+
+    const newRecipeFilesPromise = id_array.map((id) =>
+      File.create_file_relation({ file_id: id, recipe_id: RecipeId })
+    );
+    await Promise.all(newRecipeFilesPromise);
+
+    // return res.redirect(`/recipes/${recipe.id}`);
+    return res.redirect(`/admin/recipes/${RecipeId}/edit`);
   },
   async put(req, res) {
     if (req.body.chef_id == "") return res.send("please fill all fields");

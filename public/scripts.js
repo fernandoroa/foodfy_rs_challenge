@@ -92,7 +92,10 @@ if (recipe_cards) {
 }
 
 let preview = document.querySelector("#photos-preview-and-upload");
-let form_put_button = document.querySelector("button[form='form-put']");
+let form_button = document.querySelector("button[form='form-put']");
+if (!form_button) {
+  form_button = document.querySelector("button[form='form-create']");
+}
 let button_tooltip = document.querySelector(".tooltip_text");
 let photos_input = document.querySelector("#photos-input");
 let photos_upload_i = document.querySelector("#photos-upload i");
@@ -103,10 +106,10 @@ document.querySelector("input[type=file]").setAttribute("title", "");
 
 let manage_input_file = function() {
   if (preview.childElementCount <= child_not_photos) {
-    form_put_button.setAttribute("disabled", "");
+    form_button.setAttribute("disabled", "");
     button_tooltip.classList.add("active");
   } else {
-    form_put_button.removeAttribute("disabled");
+    form_button.removeAttribute("disabled");
     button_tooltip.classList.remove("active");
   }
   if (preview.childElementCount >= child_photo_limit) {

@@ -20,3 +20,10 @@
     </div>
   </div>
 {% endblock %}
+{% block js %}
+  <script src = "/recipe_scripts.js"></script>
+  <script type="module">
+    import {PhotosUpload} from '/PhotosUpload.js'
+    window.PhotosUpload = PhotosUpload;
+  </script>
+{% endblock %}

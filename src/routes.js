@@ -5,9 +5,9 @@ const recipes = require("./app/controllers/recipes");
 const chefs = require("./app/controllers/chefs");
 const multer = require("./app/middlewares/multer");
 
-routes.get("/", function(req, res){
-	return res.redirect("/index")
-})
+routes.get("/", function (req, res) {
+  return res.redirect("/index");
+});
 
 routes.get("/index", recipes.main);
 routes.get("/about", recipes.about);

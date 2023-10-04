@@ -2,73 +2,78 @@
 
 {% block content %}
 
-<div class="recipe" id="{{recipe.id}}">
+  <div class="recipe" id="{{recipe.id}}">
 
-  <div class="recipe__recipe-container">
-    <img src="{{recipe.image}}" alt="{{recipe.title}}">
-  </div>
-
-  <div id="recipe_title">
-    <h1>{{ recipe.title }}</h1>
-  </div>
-
-  <div id="recipe__chef_name">
-    <p>por {{ recipe.chef_name }}</p>
-  </div>
-
-  <div class="recipe__section" id="in">
-    <div class="title_button_container">
-      <h2>Ingredientes</h2>
-      <div class="button">
-        <span>ESCONDER</span>
-      </div>
+    <div class="recipe__recipe-container">
+      <img src="{{recipe.image}}" alt="{{recipe.title}}">
     </div>
-    <div class="ingredients__content">
-      <ul>
-      {% for it in recipe.ingredients %}
-        {% if it != '' %}
-        <li> {{ it }} </li>
-        {% endif %}
-      {% endfor %}
-      </ul>
+
+    <div id="recipe_title">
+      <h1>{{ recipe.title }}</h1>
     </div>
-  </div>
 
-  <div class="recipe__section" id="pr">
-
-    <div class="title_button_container">
-      <h2>Modo de preparo</h2>
-      <div class="button">
-        <span>ESCONDER</span>
-      </div>
+    <div id="recipe__chef_name">
+      <p>por
+        {{ recipe.chef_name }}</p>
     </div>
-    <div class="preparation__content">
-      <ul>
-      {% for it in recipe.preparation %}
-        {% if it != '' %}
-          <li> {{ it }} </li>
-        {% endif %}
-      {% endfor %}
-      </ul>
-    </div>
-  </div>
 
-  <div class="recipe__section" id="info">
-
-    {% if recipe.information != '' %}
+    <div class="recipe__section" id="in">
       <div class="title_button_container">
-        <h2>Informações adicionais</h2>
+        <h2>Ingredientes</h2>
         <div class="button">
           <span>ESCONDER</span>
         </div>
       </div>
-      <div class="information__content">
-        <p>{{ recipe.information }}</p>
+      <div class="ingredients__content">
+        <ul>
+          {% for it in recipe.ingredients %}
+            {% if it != '' %}
+              <li>
+                {{ it }}
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
       </div>
-    {% endif %}
+    </div>
+
+    <div class="recipe__section" id="pr">
+
+      <div class="title_button_container">
+        <h2>Modo de preparo</h2>
+        <div class="button">
+          <span>ESCONDER</span>
+        </div>
+      </div>
+      <div class="preparation__content">
+        <ul>
+          {% for it in recipe.preparation %}
+            {% if it != '' %}
+              <li>
+                {{ it }}
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="recipe__section" id="info">
+
+      {% if recipe.information != '' %}
+        <div class="title_button_container">
+          <h2>Informações adicionais</h2>
+          <div class="button">
+            <span>ESCONDER</span>
+          </div>
+        </div>
+        <div class="information__content">
+          <p>{{ recipe.information }}</p>
+        </div>
+      {% endif %}
+    </div>
+
   </div>
 
-</div>
-
-{% include "links.njk" %}
+  {% include "links.njk" %}
 {% endblock %}

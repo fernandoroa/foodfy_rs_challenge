@@ -8,6 +8,7 @@
   --color-cream: #fbdfdb;
   --color-black: #111111;
   --color-black-bottom: #333;
+  --color-black-alpha: rgba(0, 0, 0, 0.3);
   --color-gray: #444444;
   --color-light-brown: #555;
   --color-inter-gray: #999999;
@@ -25,6 +26,7 @@ html {
   margin: 0;
   padding: 0;
   border: 0;
+  text-decoration: none;
 }
 
 body {
@@ -40,7 +42,6 @@ input,
 select {
   font-size: inherit;
   font-weight: inherit;
-  text-decoration: none;
   font-family: inherit;
 }
 
@@ -146,13 +147,11 @@ footer p {
   color: black;
   font-size: 16px;
   line-height: 26px;
-  text-decoration: none;
 }
 
 header.admin .links a {
   font-size: 12px;
   line-height: 28px;
-  text-decoration: none;
   color: var(--color-inter-gray);
   cursor: pointer;
 }
@@ -261,7 +260,9 @@ header.admin .links a.active {
 }
 
 .same-line {
-  padding-top: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
   margin-top: 2vh;
   display: flex;
   justify-content: flex-end;
@@ -546,7 +547,6 @@ a.button {
   width: auto;
   color: white;
   font-size: 16px;
-  text-decoration: none;
   cursor: pointer;
 }
 
@@ -639,7 +639,6 @@ textarea {
 .pagination a,
 .pagination span {
   color: var(--primary-color);
-  text-decoration: none;
   margin-right: 16px;
 }
 
@@ -729,4 +728,89 @@ input[type="file"]::file-selector-button {
 
 #photos-preview-and-upload .photo:hover i {
   opacity: 1;
+}
+
+.recipe .gallery {
+  width: 100%;
+}
+
+.recipe .gallery .highlight > img {
+  width: 100%;
+  height: 280px;
+  object-fit: contain;
+  background-color: black;
+  object-position: 50% 50%;
+  border: 1px solid var(--color-light-gray);
+  cursor: zoom-in;
+  border-radius: 5px 5px 15px 15px;
+}
+
+.recipe .gallery-preview-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.recipe .gallery-preview {
+  width: 60%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+  direction: rtl;
+}
+
+.recipe .gallery-preview img {
+  height: 80px;
+  width: 100%;
+  object-fit: contain;
+  background-color: black;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: 200ms;
+  border-radius: 15px;
+}
+
+.recipe .gallery-preview img:hover,
+.recipe .gallery-preview img.active {
+  opacity: 1;
+}
+.recipe .highlight .lightbox-target {
+  position: fixed;
+  width: 90%;
+  height: auto;
+  background: var(--color-black-alpha);
+  overflow: hidden;
+  z-index: 100;
+  left: 5%;
+  top: -100;
+  opacity: 0;
+  transition: opacity 400ms;
+}
+
+.recipe .highlight .lightbox-target img {
+  margin: auto;
+  position: absolute;
+  border: 1px solid var(--color-light-gray);
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: black;
+  box-shadow: 0 0 8px var(--color-black-alpha);
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: cover;
+}
+
+.recipe .highlight .lightbox-target .lightbox-close {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background: white;
+  position: absolute;
+  right: 5%;
+  top: -180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 400ms;
 }

@@ -12,11 +12,11 @@ module.exports = {
     const params = {
       filter,
       limit,
-      offset
-    }
+      offset,
+    };
 
     let recipes = await Recipe.paginate(params);
-    recipes = recipes[1]
+    recipes = recipes[1];
     let status = recipes[0].status;
     let recipes_total = recipes[0].total || 1;
     let id_array = recipes.map((obj) => obj.id);
@@ -27,10 +27,13 @@ module.exports = {
       src: `${req.protocol}://${req.headers.host}${file.path.replace(
         "public",
         ""
-      )}`
+      )}`,
     }));
 
-    recipes = recipes.map(item => ({...item, ...files.find(elem => elem.recipe_id == item.id)}));
+    recipes = recipes.map((item) => ({
+      ...item,
+      ...files.find((elem) => elem.recipe_id == item.id),
+    }));
 
     const pagination = {
       status: status,
@@ -39,7 +42,6 @@ module.exports = {
     };
 
     return res.render("index", { recipes, pagination, filter });
-
   },
   async list(req, res) {
     let { filter, page, limit } = req.query;
@@ -51,11 +53,11 @@ module.exports = {
     const params = {
       filter,
       limit,
-      offset
-    }
+      offset,
+    };
 
     let recipes = await Recipe.paginate(params);
-    recipes = recipes[1]
+    recipes = recipes[1];
     let status = recipes[0].status;
     let recipes_total = recipes[0].total || 1;
     let id_array = recipes.map((obj) => obj.id);
@@ -66,10 +68,13 @@ module.exports = {
       src: `${req.protocol}://${req.headers.host}${file.path.replace(
         "public",
         ""
-      )}`
+      )}`,
     }));
 
-    recipes = recipes.map(item => ({...item, ...files.find(elem => elem.recipe_id == item.id)}));
+    recipes = recipes.map((item) => ({
+      ...item,
+      ...files.find((elem) => elem.recipe_id == item.id),
+    }));
 
     const pagination = {
       status: status,
@@ -78,7 +83,6 @@ module.exports = {
     };
 
     return res.render("recipes/recipes", { recipes, pagination, filter });
-
   },
   about(req, res) {
     const about = {
@@ -118,11 +122,11 @@ module.exports = {
     const params = {
       filter,
       limit,
-      offset
-    }
+      offset,
+    };
 
     let recipes = await Recipe.paginate(params);
-    recipes = recipes[1]
+    recipes = recipes[1];
     let status = recipes[0].status;
     let recipes_total = recipes[0].total || 1;
     let id_array = recipes.map((obj) => obj.id);
@@ -133,10 +137,13 @@ module.exports = {
       src: `${req.protocol}://${req.headers.host}${file.path.replace(
         "public",
         ""
-      )}`
+      )}`,
     }));
 
-    recipes = recipes.map(item => ({...item, ...files.find(elem => elem.recipe_id == item.id)}));
+    recipes = recipes.map((item) => ({
+      ...item,
+      ...files.find((elem) => elem.recipe_id == item.id),
+    }));
 
     const pagination = {
       status: status,
@@ -145,7 +152,6 @@ module.exports = {
     };
 
     return res.render("admin/recipes/index", { recipes, pagination, filter });
-
   },
   async create(req, res) {
     let options = await Recipe.chefsSelectOptions();

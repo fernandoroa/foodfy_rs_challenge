@@ -2,7 +2,7 @@ const { date } = require("../../lib/utils");
 const { db } = require("../../config/db");
 
 module.exports = {
-  create(data, callback) {
+  create(data) {
     const query = `
       INSERT INTO recipes (
         chef_id,
@@ -24,7 +24,7 @@ module.exports = {
       date(Date.now()).iso,
     ];
 
-    return db.any(query, values)
+    return db.any(query, values);
   },
   find(id) {
     const query = `
@@ -62,7 +62,7 @@ module.exports = {
       .then(() => {
         callback();
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("error:", error);
       });
   },
@@ -70,13 +70,13 @@ module.exports = {
     return db.any(`SELECT name, id FROM chefs`);
   },
   paginate(params) {
-    const { filter, limit, offset, callback } = params;
+    const { filter, limit, offset } = params;
 
     let query = "",
       filterQuery = "",
-      totalQueryOrig = totalQuery = `(
+      totalQueryOrig = (totalQuery = `(
           SELECT count(*) FROM recipes 
-        )`;
+        )`);
 
     if (filter) {
       filterQuery = `
@@ -84,22 +84,23 @@ module.exports = {
       OR chefs.name ILIKE '%${filter}%'
       `;
       totalQuery = `(
-        SELECT count(*) FROM recipes 
+        SELECT count(*) FROM recipes
+        LEFT JOIN chefs ON (recipes.chef_id = chefs.id)
         ${filterQuery}
       )`;
     }
 
     query = `
     create or replace function get_all_data_if_filter_returns_nothing()
-      returns table(id int, chef_id int, image text, title text, ingredients text[], preparation text[], information text,
-        created_at timestamp, name text, total bigint, status text)
+      returns table(id int, chef_id int, title text, ingredients text[], preparation text[], information text,
+        created_at timestamp, chef_name text, total bigint, status text)
     language plpgsql
     as
     $_$
     declare
     begin
       RETURN QUERY
-      SELECT recipes.*, chefs.name, ${totalQuery} AS total,
+      SELECT recipes.*, chefs.name AS chef_name, ${totalQuery} AS total,
       'filter' AS status
       FROM recipes
       LEFT JOIN chefs ON (recipes.chef_id = chefs.id)
@@ -110,7 +111,7 @@ module.exports = {
       IF FOUND THEN return; end if;
 
       RETURN QUERY
-      SELECT recipes.*, chefs.name, ${totalQueryOrig} AS total,
+      SELECT recipes.*, chefs.name AS chef_name, ${totalQueryOrig} AS total,
       'no_filter' AS status
       FROM recipes
       LEFT JOIN chefs ON (recipes.chef_id = chefs.id)
@@ -121,13 +122,7 @@ module.exports = {
     select * from get_all_data_if_filter_returns_nothing();
     `;
 
-    db.multi(query, [limit, offset])
-      .then(result => {
-        callback(result[1]);
-      })
-      .catch(error => {
-        console.log("error:", error);
-      });
+    return db.multi(query, [limit, offset]);
   },
   files(id) {
     return db.any(
@@ -137,6 +132,16 @@ module.exports = {
     WHERE recipe_id = $1;
     `,
       [id]
+    );
+  },
+  all_files(id_array) {
+    return db.any(
+      `
+    SELECT DISTINCT ON (recipe_id) files.name AS file_name, files.path, recipe_id, files.id AS file_id FROM recipe_files
+    LEFT JOIN files ON (recipe_files.file_id = files.id)
+    WHERE recipe_id IN ($1:list);
+    `,
+      [id_array]
     );
   },
 };

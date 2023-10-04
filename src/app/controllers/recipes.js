@@ -64,12 +64,21 @@ module.exports = {
     };
     return res.render("about", { about });
   },
-  display(req, res) {
-    Recipe.find(req.params.id, function (recipe) {
-      if (!recipe) return res.send("Missing recipe");
+  async display(req, res) {
+    let results = await Recipe.find(req.params.id);
+    const recipe = await results[0];
+    if (!recipe) return res.send("Missing recipe");
 
-      return res.render("recipes/display", { recipe });
-    });
+    let files = await Recipe.files(recipe.id);
+    files = files.map((file) => ({
+      ...file,
+      src: `${req.protocol}://${req.headers.host}${file.path.replace(
+        "public",
+        ""
+      )}`,
+    }));
+
+    return res.render("recipes/display", { recipe, files });
   },
   index(req, res) {
     let { filter, page, limit } = req.query;
@@ -103,12 +112,21 @@ module.exports = {
     let options = await Recipe.chefsSelectOptions();
     return res.render("admin/recipes/create", { chefOptions: options });
   },
-  show(req, res) {
-    Recipe.find(req.params.id, function (recipe) {
-      if (!recipe) return res.send("Missing recipe");
+  async show(req, res) {
+    let results = await Recipe.find(req.params.id);
+    const recipe = await results[0];
+    if (!recipe) return res.send("Missing recipe");
 
-      return res.render("admin/recipes/show", { recipe });
-    });
+    let files = await Recipe.files(recipe.id);
+    files = files.map((file) => ({
+      ...file,
+      src: `${req.protocol}://${req.headers.host}${file.path.replace(
+        "public",
+        ""
+      )}`,
+    }));
+
+    return res.render("admin/recipes/show", { recipe, files });
   },
   async edit(req, res) {
     let results = await Recipe.find(req.params.id);
@@ -145,8 +163,7 @@ module.exports = {
     );
     await Promise.all(newRecipeFilesPromise);
 
-    // return res.redirect(`/recipes/${recipe.id}`);
-    return res.redirect(`/admin/recipes/${RecipeId}/edit`);
+    return res.redirect(`/recipes/${RecipeId}`);
   },
   async put(req, res) {
     if (req.body.chef_id == "") return res.send("please fill all fields");
@@ -176,8 +193,7 @@ module.exports = {
     }
 
     await Recipe.update(req.body);
-    // return res.redirect(`/recipes/${req.body.id}`);
-    return res.redirect(`/admin/recipes/${req.body.id}/edit`);
+    return res.redirect(`/recipes/${req.body.id}`);
   },
   delete(req, res) {
     Recipe.delete(req.body.id, function () {

@@ -240,9 +240,21 @@ module.exports = {
     await Recipe.update(req.body);
     return res.redirect(`/recipes/${req.body.id}`);
   },
-  delete(req, res) {
-    Recipe.delete(req.body.id, function () {
-      return res.redirect(`/recipes`);
-    });
+  async delete(req, res) {
+    let files = await Recipe.files(req.body.id);
+    let file_id_array = files.map((obj) => obj.file_id);
+
+    const removedRecipeFilesPromise = file_id_array.map((file_id) =>
+      File.delete_file_relation(file_id, req.body.id)
+    );
+
+    const removedFilesPromise = file_id_array.map((file_id) =>
+      File.delete(file_id)
+    );
+    await Promise.all(removedRecipeFilesPromise);
+    await Promise.all(removedFilesPromise);
+
+    await Recipe.delete(req.body.id);
+    return res.redirect("/recipes");
   },
 };

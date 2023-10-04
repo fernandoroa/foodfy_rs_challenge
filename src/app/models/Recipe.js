@@ -57,14 +57,8 @@ module.exports = {
 
     return db.any(query, values);
   },
-  delete(id, callback) {
-    db.any(`DELETE FROM recipes WHERE id = $1`, [id])
-      .then(() => {
-        callback();
-      })
-      .catch((error) => {
-        console.log("error:", error);
-      });
+  delete(id) {
+    return db.any(`DELETE FROM recipes WHERE id = $1`, [id])
   },
   chefsSelectOptions() {
     return db.any(`SELECT name, id FROM chefs`);

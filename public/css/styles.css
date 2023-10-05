@@ -237,7 +237,7 @@ header.admin .links a.active {
   text-align: left;
 }
 
-.recipe img {
+.recipe img, .chef img {
   border-radius: var(--border-radius);
 }
 

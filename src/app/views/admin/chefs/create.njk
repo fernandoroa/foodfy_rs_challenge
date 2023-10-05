@@ -16,3 +16,9 @@
   </div>
 </div>
 {% endblock %}
+{% block js %}
+  <script type="module">
+    import {ChefPhotoUpload} from '/ChefPhotoUpload.js'
+    window.ChefPhotoUpload = ChefPhotoUpload;
+  </script>
+{% endblock %}

@@ -1,4 +1,5 @@
 const Chef = require("../models/Chef");
+const File = require("../models/File");
 
 module.exports = {
   list(req, res) {
@@ -51,12 +52,22 @@ module.exports = {
     Chef.paginate(params);
   },
   create(req, res) {
-    return res.render("admin/chefs/create")
+    return res.render("admin/chefs/create");
   },
-  post(req, res) {
-    Chef.create(req.body, function (chef) {
-      return res.redirect(`/chefs/${chef.id}`);
-    });
+  async post(req, res) {
+    if (req.files.length == 0) return res.send("Please send one image");
+
+    let file = req.files[0];
+    const file_res = await File.create({ ...file });
+    let id = file_res[0].id;
+    const params = {
+      file_id: id,
+      ...req.body,
+    };
+    let results = await Chef.create(params);
+    const ChefId = await results[0].id;
+
+    return res.redirect(`/chefs/${ChefId}`);
   },
   edit(req, res) {
     Chef.find(req.params.id, function (chef) {

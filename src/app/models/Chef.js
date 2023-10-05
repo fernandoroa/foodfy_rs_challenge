@@ -27,25 +27,20 @@ module.exports = {
       console.log("error:", error);
     });
   },
-  create(data, callback) {
+  create(params) {
+    const { file_id, name } = params;
     const query = `
       INSERT INTO chefs (
-        avatar_url,
+        file_id,
         name,
         created_at
       ) VALUES ($1, $2, $3)
       RETURNING id
     `;
 
-    const values = [data.avatar_url, data.name, date(Date.now()).iso];
+    const values = [file_id, name, date(Date.now()).iso];
 
-    db.any(query, values)
-    .then(result => {
-      callback(result[0]);
-    })
-    .catch(error => {
-      console.log("error:", error);
-    });
+    return db.any(query, values);
   },
   find(id, callback) {
     const query = `

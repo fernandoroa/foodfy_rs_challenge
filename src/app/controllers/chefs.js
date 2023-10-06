@@ -1,5 +1,6 @@
 const Chef = require("../models/Chef");
 const File = require("../models/File");
+const Recipe = require("../models/Recipe");
 
 module.exports = {
   async list(req, res) {
@@ -37,13 +38,42 @@ module.exports = {
     };
     return res.render("chefs/index", { chefs, pagination });
   },
-  display(req, res) {
-    const id = req.params.id;
-    Chef.find(id, function (chef) {
-      if (!chef) return res.send("Missing chef");
-      Chef.findBy(id, function(chefs) {
-        return res.render('chefs/display', { chef, chef_recipes: chefs })
-      })
+  async display(req, res) {
+    let chefs = await Chef.find(req.params.id);
+    const chef = await chefs[0];
+    if (!chef) return res.send("Missing chef");
+
+    let files = await Chef.files(chef.id);
+
+    let chef_image = files[0];
+    if (chef_image.path != null) {
+      chef_image.src = `${req.protocol}://${
+        req.headers.host
+      }${chef_image.path.replace("public", "")}`;
+    }
+
+    let recipes = await Chef.findBy(req.params.id);
+
+    let recipe_id_array = recipes.map((obj) => obj.recipe_id);
+
+    let recipe_files = await Recipe.all_files(recipe_id_array);
+    recipe_files = recipe_files.map((file) => ({
+      ...file,
+      src: `${req.protocol}://${req.headers.host}${file.path.replace(
+        "public",
+        ""
+      )}`,
+    }));
+
+    recipes = recipes.map((item) => ({
+      ...item,
+      ...recipe_files.find((elem) => elem.recipe_id == item.recipe_id),
+    }));
+
+    return res.render("chefs/display", {
+      chef,
+      chef_recipes: recipes,
+      image: chef_image,
     });
   },
   async index(req, res) {
@@ -97,8 +127,7 @@ module.exports = {
     let results = await Chef.create(params);
     const ChefId = await results[0].id;
 
-    // return res.redirect(`/chefs/${ChefId}`);
-    return res.redirect(`/admin/chefs/${ChefId}/edit`);
+    return res.redirect(`/chefs/${ChefId}`);
   },
   async edit(req, res) {
     let results = await Chef.find(req.params.id);
@@ -149,8 +178,7 @@ module.exports = {
       };
       await Chef.update_no_file(params);
     }
-    // return res.redirect(`/chefs/${req.body.id}`);
-    return res.redirect(`/admin/chefs/${req.body.id}/edit`);
+    return res.redirect(`/chefs/${req.body.id}`);
   },
   async delete(req, res) {
     let files = await Chef.files(req.body.id);
@@ -161,13 +189,42 @@ module.exports = {
     }
     return res.redirect(`/chefs`);
   },
-  show(req, res) {
-    const id = req.params.id;
-    Chef.find(id, function (chef) {
-      if (!chef) return res.send("Missing chef");
-      Chef.findBy(id, function(recipes) {
-        return res.render('admin/chefs/show', { chef, chef_recipes: recipes })
-      })
+  async show(req, res) {
+    let chefs = await Chef.find(req.params.id);
+    const chef = await chefs[0];
+    if (!chef) return res.send("Missing chef");
+
+    let files = await Chef.files(chef.id);
+
+    let chef_image = files[0];
+    if (chef_image.path != null) {
+      chef_image.src = `${req.protocol}://${
+        req.headers.host
+      }${chef_image.path.replace("public", "")}`;
+    }
+
+    let recipes = await Chef.findBy(req.params.id);
+
+    let recipe_id_array = recipes.map((obj) => obj.recipe_id);
+
+    let recipe_files = await Recipe.all_files(recipe_id_array);
+    recipe_files = recipe_files.map((file) => ({
+      ...file,
+      src: `${req.protocol}://${req.headers.host}${file.path.replace(
+        "public",
+        ""
+      )}`,
+    }));
+
+    recipes = recipes.map((item) => ({
+      ...item,
+      ...recipe_files.find((elem) => elem.recipe_id == item.recipe_id),
+    }));
+
+    return res.render("admin/chefs/show", {
+      chef,
+      chef_recipes: recipes,
+      image: chef_image,
     });
   },
-}
+};

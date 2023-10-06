@@ -71,33 +71,28 @@ module.exports = {
   delete(id, callback) {
     return db.any(`DELETE FROM chefs WHERE id = $1`, [id]);
   },
-  findBy(id, callback) {
-    db.any(
+  findBy(id) {
+    return db.any(
       `
-    WITH table1 AS (
-      SELECT chefs.id AS chefs_id, chefs.name AS chefs_name, recipes.title, recipes.image, recipes.id AS recipes_id
-      FROM chefs
-      LEFT JOIN recipes ON (recipes.chef_id = chefs.id) 
-      WHERE chefs.id = $1
-      GROUP BY chefs.id, recipes.title, recipes.image, recipes.id
-    ),
-    table2 as ( 
-      SELECT chefs.id AS chefs_id, count(recipes) AS chef_recipes_total
-      FROM chefs
-      LEFT JOIN recipes ON (recipes.chef_id = chefs.id) 
-      WHERE chefs.id = $1
-      GROUP BY chefs.id
-    )
-    select * from table1
-    left join table2 on table1.chefs_id = table2.chefs_id
+      WITH chef_recipes AS (
+        SELECT chefs.id AS chefs_id, chefs.name AS chefs_name, recipes.title, recipes.id AS recipe_id
+        FROM chefs
+        LEFT JOIN recipes ON (recipes.chef_id = chefs.id) 
+        WHERE chefs.id = $1
+        GROUP BY chefs.id, recipes.title, recipes.id
+      ),
+      total_recipes_per_chef as ( 
+        SELECT chefs.id AS chefs_id, count(recipes) AS chef_recipes_total
+        FROM chefs
+        LEFT JOIN recipes ON (recipes.chef_id = chefs.id) 
+        WHERE chefs.id = $1
+        GROUP BY chefs.id
+      )
+      select * from chef_recipes
+      left join total_recipes_per_chef on chef_recipes.chefs_id = total_recipes_per_chef.chefs_id
     `,
-      [id])
-    .then(result => {
-      callback(result);
-    })
-    .catch(error => {
-      console.log("error:", error);
-    });
+      [id]
+    )
   },
   files(id) {
     return db.any(

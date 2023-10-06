@@ -3,7 +3,7 @@
   <div class="chef" id="{{ chef.id }}">
     <div class="chef_picture_text">
       <div class="chef__big_image-container">
-        <img src="{{ chef.avatar_url }}" alt="{{ chef.name }}">
+        <img src="{{ image.src }}" alt="{{ chef.name }}">
       </div>
       <div id="chef__name">
         <h1>Chef: {{ chef.name }}</h1>
@@ -20,9 +20,9 @@
       <h2>Receitas</h2>
       <section class="cards">
         {% for recipe in chef_recipes %}
-          <div class="cardRecipe" id="{{ recipe.recipes_id}}">
+          <div class="cardRecipe" id="{{ recipe.recipe_id}}">
             <div class="card__image-container">
-              <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+              <img src="{{ recipe.src }}" alt="{{ recipe.title }}">
             </div>
             <div class="card_texts">
               <div class="card__title">

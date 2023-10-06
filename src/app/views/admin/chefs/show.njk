@@ -7,7 +7,7 @@
     </div>
     <div class="chef_picture_text">
       <div class="chef__big_image-container">
-        <img src="{{ chef.avatar_url }}" alt="{{ chef.name }}">
+        <img src="{{ image.src }}" alt="{{ chef.name }}">
       </div>
       <div id="chef__name">
         <h1>Chef: {{ chef.name }}</h1>
@@ -26,7 +26,7 @@
         {% for recipe in chef_recipes %}
           <div class="cardRecipeManager">
             <div class="card__image-container-manager">
-              <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+              <img src="{{ recipe.src }}" alt="{{ recipe.title }}">
             </div>
             <div class="card_texts">
               <div class="card__title">
@@ -35,7 +35,7 @@
               <div class="card__chef_name">
                 <p>{{ recipe.chef_name }}</p>
               </div>
-              <div class="visualizer" id="{{ recipe.recipes_id }}">
+              <div class="visualizer" id="{{ recipe.recipe_id }}">
                 <p>Visualizar</p>
               </div>
             </div>

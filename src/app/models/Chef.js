@@ -3,13 +3,14 @@ const { db } = require("../../config/db");
 
 module.exports = {
   paginate(params) {
-    const { limit, offset, callback } = params;
+    const { limit, offset } = params;
 
     let totalQuery = `(
           SELECT count(*) FROM chefs 
         )`;
+
     let query = `
-    SELECT chefs.id, chefs.name, chefs.avatar_url, 
+    SELECT chefs.id, chefs.name,
     count(recipes) AS chef_recipes_total,
     ${totalQuery} AS total
     FROM chefs
@@ -19,13 +20,7 @@ module.exports = {
     LIMIT $1 OFFSET $2
     `;
 
-    db.any(query, [limit, offset])
-    .then(result => {
-      callback(result);
-    })
-    .catch(error => {
-      console.log("error:", error);
-    });
+    return db.any(query, [limit, offset]);
   },
   create(params) {
     const { file_id, name } = params;
@@ -112,6 +107,16 @@ module.exports = {
     WHERE chefs.id = $1;
     `,
       [id]
+    );
+  },
+  all_files(id_array) {
+    return db.any(
+      `
+    SELECT DISTINCT ON (chef_id) chefs.id AS chef_id, files.name AS file_name, files.path, files.id AS file_id FROM chefs
+    LEFT JOIN files ON (chefs.file_id = files.id)
+    WHERE chefs.id IN ($1:list);
+    `,
+      [id_array]
     );
   },
 };

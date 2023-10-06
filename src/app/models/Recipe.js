@@ -131,7 +131,7 @@ module.exports = {
   all_files(id_array) {
     return db.any(
       `
-    SELECT DISTINCT ON (recipe_id) files.name AS file_name, files.path, recipe_id, files.id AS file_id FROM recipe_files
+    SELECT DISTINCT ON (recipe_id) recipe_id, files.name AS file_name, files.path, files.id AS file_id FROM recipe_files
     LEFT JOIN files ON (recipe_files.file_id = files.id)
     WHERE recipe_id IN ($1:list);
     `,

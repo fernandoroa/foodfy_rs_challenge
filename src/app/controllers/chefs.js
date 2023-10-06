@@ -2,7 +2,7 @@ const Chef = require("../models/Chef");
 const File = require("../models/File");
 
 module.exports = {
-  list(req, res) {
+  async list(req, res) {
     let { page, limit } = req.query;
 
     page = page || 1;
@@ -12,15 +12,30 @@ module.exports = {
     const params = {
       limit,
       offset,
-      callback(chefs) {
-        const pagination = {
-          total: Math.ceil(chefs[0].total / limit),
-          page,
-        };
-        return res.render("chefs/index", { chefs, pagination });
-      },
     };
-    Chef.paginate(params);
+    let chefs = await Chef.paginate(params);
+    let chefs_total = chefs[0].total || 1;
+    let id_array = chefs.map((obj) => obj.id);
+
+    let files = await Chef.all_files(id_array);
+    files = files.map((file) => ({
+      ...file,
+      src: `${req.protocol}://${req.headers.host}${file.path.replace(
+        "public",
+        ""
+      )}`,
+    }));
+
+    chefs = chefs.map((item) => ({
+      ...item,
+      ...files.find((elem) => elem.chef_id == item.id),
+    }));
+
+    const pagination = {
+      total: Math.ceil(chefs_total / limit),
+      page,
+    };
+    return res.render("chefs/index", { chefs, pagination });
   },
   display(req, res) {
     const id = req.params.id;
@@ -31,7 +46,7 @@ module.exports = {
       })
     });
   },
-  index(req, res) {
+  async index(req, res) {
     let { page, limit } = req.query;
 
     page = page || 1;
@@ -41,15 +56,30 @@ module.exports = {
     const params = {
       limit,
       offset,
-      callback(chefs) {
-        const pagination = {
-          total: Math.ceil(chefs[0].total / limit),
-          page,
-        };
-        return res.render("admin/chefs/index", { chefs, pagination });
-      },
     };
-    Chef.paginate(params);
+    let chefs = await Chef.paginate(params);
+    let chefs_total = chefs[0].total || 1;
+    let id_array = chefs.map((obj) => obj.id);
+
+    let files = await Chef.all_files(id_array);
+    files = files.map((file) => ({
+      ...file,
+      src: `${req.protocol}://${req.headers.host}${file.path.replace(
+        "public",
+        ""
+      )}`,
+    }));
+
+    chefs = chefs.map((item) => ({
+      ...item,
+      ...files.find((elem) => elem.chef_id == item.id),
+    }));
+
+    const pagination = {
+      total: Math.ceil(chefs_total / limit),
+      page,
+    };
+    return res.render("admin/chefs/index", { chefs, pagination });
   },
   create(req, res) {
     return res.render("admin/chefs/create");

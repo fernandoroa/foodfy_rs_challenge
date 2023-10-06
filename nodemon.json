@@ -1,4 +1,5 @@
 {
   "watch": ["*","src/app/views/", "src/app/views/admin/", "src/app/views/chefs", "src/app/views/recipes"],
-  "ext": "js, css, njk"
+  "ext": "js, css, njk",
+  "ignore": ["*.jpg", "*.png"] 
 }

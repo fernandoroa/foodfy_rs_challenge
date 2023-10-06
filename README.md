@@ -4,24 +4,22 @@ All challenges relate to building a site of cooking recipes and related chefs.
 
 Branch names correspond to those challenges. Check also [previous_challenges.md](previous_challenges.md)
 
-### ***Fourth Challenge*** (portuguese):
+### ***Fifth Challenge*** (portuguese):
 
-https://github.com/rocketseat-education/bootcamp-launchbase-desafios-05/blob/master/desafios/05-persistindo-dados-foodfy.md
+Source: https://github.com/rocketseat-education/bootcamp-launchbase-desafios-07/blob/master/desafios/07-foodfy-envio-imagens.md
 
 #### Summary
 
-* Migrate data that were in a `.json` to a PostgreSQL database
-* Create *chef* pages, such as `create`, `list`, `edit`.
-* Create a filter field to search for recipes
+* Files: Create in the PostgreSQL database a table: `files [id, name, path]` to get images paths
+* Files -> Recipes: Create relationship table `recipe_files[id, recipe_id -> recipes(id), file_id -> files(id)]`
+* Recipes Create/Edit: add photos to recipes pages, removing previous `image` field, creating new field to upload images and adding a limit of 5 photos and minimum of one
+* Chefs: Remove the image url field (`avatar_url`) from `chefs` table.
+* Files -> Chefs: Create relationship `chefs[file_id -> files(id) ...]`
+* Show Page: Add a gallery to show all the photos of the recipe
+* Use async/await
 
-* Create a *main*, *details*, *edition* and *creation* pages with buttons as in:    
-  * https://rawcdn.githack.com/rocketseat-education/bootcamp-launchbase-desafios-05/0e2651f64b0e06c8c23e3b86b10cfda55c6bfbd4/layouts/admin/index.html  
-  * https://rawcdn.githack.com/rocketseat-education/bootcamp-launchbase-desafios-05/0e2651f64b0e06c8c23e3b86b10cfda55c6bfbd4/layouts/site/index.html
-  
-  * or paste this links:
-  https://raw.githubusercontent.com/rocketseat-education/bootcamp-launchbase-desafios-05/master/layouts/admin/index.html  
-  https://raw.githubusercontent.com/rocketseat-education/bootcamp-launchbase-desafios-05/master/layouts/site/index.html  
-  into: https://raw.githack.com/
+* Modify `recipes` pages: *details*, *creation*, *edition*, to show/upload photos, as in: [index.html](https://raw.githack.com/rocketseat-education/bootcamp-launchbase-desafios-07/master/layouts/index.html)
+* Modify `chef` pages: *creation*, *edition*, to upload photos, as in: [index.html](https://raw.githack.com/rocketseat-education/bootcamp-launchbase-desafios-07/master/layouts/index.html)
 
 
 ### How to run 

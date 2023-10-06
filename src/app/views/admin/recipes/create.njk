@@ -1,18 +1,25 @@
 {% extends "../layout.njk" %}
 {% block content %}
-<div class="admin_content">
-  <div class="recipe" id="{{ recipe.id }}">
-
-    <form method="POST" action="/admin/recipes">
-
+  <div class="admin_content">
+    <div class="recipe" id="{{ recipe.id }}">
       <div class="same-line">
         <h1>Criando receita</h1>
-        <button type="submit" class="right">Salvar receita</button>
+        <div class="button_tooltip_container">
+          <button form="form-create" type="submit" class="right">Salvar receita</button>
+          <span class="tooltip_text">Select at least one photo</span>
+        </div>
       </div>
 
-      {% include 'admin/recipes/fields.njk' %}
-
-    </form>
+      <form method="POST" action="/admin/recipes" enctype="multipart/form-data" id="form-create">
+        {% include 'admin/recipes/fields.njk' %}
+      </form>
+    </div>
   </div>
-</div>
+{% endblock %}
+{% block js %}
+  <script src = "/recipe_scripts.js"></script>
+  <script type="module">
+    import {PhotosUpload} from '/PhotosUpload.js'
+    window.PhotosUpload = PhotosUpload;
+  </script>
 {% endblock %}

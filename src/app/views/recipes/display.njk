@@ -2,73 +2,104 @@
 
 {% block content %}
 
-<div class="recipe" id="{{recipe.id}}">
+  <div class="recipe" id="{{recipe.id}}">
 
-  <div class="recipe__recipe-container">
-    <img src="{{recipe.image}}" alt="{{recipe.title}}">
-  </div>
-
-  <div id="recipe_title">
-    <h1>{{ recipe.title }}</h1>
-  </div>
-
-  <div id="recipe__chef_name">
-    <p>por {{ recipe.chef_name }}</p>
-  </div>
-
-  <div class="recipe__section" id="in">
-    <div class="title_button_container">
-      <h2>Ingredientes</h2>
-      <div class="button">
-        <span>ESCONDER</span>
+    <div class="gallery">
+      <div class="highlight">
+        {% if not files[0] %}
+          <img src="https://placehold.it/500x500?text=PRODUTO-SEM-FOTO">
+        {% else %}
+          <img src="{{files[0].src}}" alt="{{files[0].name}}" onclick="Lightbox.open()">
+        {% endif %}
+        <div class="lightbox-target">
+          <img src="{{files[0].src}}" alt="{{files[0].name}}">
+          <a href="#" class="lightbox-close" onclick="Lightbox.close()">
+            <i class="material-icons">close</i>
+          </a>
+        </div>
+      </div>
+      <div class="gallery-preview-container">
+      <div class="gallery-preview">
+        {% for image in files %}
+          <img src="{{image.src}}" alt="{{image.name}}" {% if loop.index0 == 0 %} class="active" {% endif %} onclick="ImageGallery.setImage(event)">
+        {% endfor %}
+      </div>
       </div>
     </div>
-    <div class="ingredients__content">
-      <ul>
-      {% for it in recipe.ingredients %}
-        {% if it != '' %}
-        <li> {{ it }} </li>
-        {% endif %}
-      {% endfor %}
-      </ul>
+
+    <div id="recipe_title">
+      <h1>{{ recipe.title }}</h1>
     </div>
-  </div>
 
-  <div class="recipe__section" id="pr">
-
-    <div class="title_button_container">
-      <h2>Modo de preparo</h2>
-      <div class="button">
-        <span>ESCONDER</span>
-      </div>
+    <div id="recipe__chef_name">
+      <p>por
+        {{ recipe.chef_name }}</p>
     </div>
-    <div class="preparation__content">
-      <ul>
-      {% for it in recipe.preparation %}
-        {% if it != '' %}
-          <li> {{ it }} </li>
-        {% endif %}
-      {% endfor %}
-      </ul>
-    </div>
-  </div>
 
-  <div class="recipe__section" id="info">
-
-    {% if recipe.information != '' %}
+    <div class="recipe__section" id="in">
       <div class="title_button_container">
-        <h2>Informações adicionais</h2>
+        <h2>Ingredientes</h2>
         <div class="button">
           <span>ESCONDER</span>
         </div>
       </div>
-      <div class="information__content">
-        <p>{{ recipe.information }}</p>
+      <div class="ingredients__content">
+        <ul>
+          {% for it in recipe.ingredients %}
+            {% if it != '' %}
+              <li>
+                {{ it }}
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
       </div>
-    {% endif %}
+    </div>
+
+    <div class="recipe__section" id="pr">
+
+      <div class="title_button_container">
+        <h2>Modo de preparo</h2>
+        <div class="button">
+          <span>ESCONDER</span>
+        </div>
+      </div>
+      <div class="preparation__content">
+        <ul>
+          {% for it in recipe.preparation %}
+            {% if it != '' %}
+              <li>
+                {{ it }}
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="recipe__section" id="info">
+
+      {% if recipe.information != '' %}
+        <div class="title_button_container">
+          <h2>Informações adicionais</h2>
+          <div class="button">
+            <span>ESCONDER</span>
+          </div>
+        </div>
+        <div class="information__content">
+          <p>{{ recipe.information }}</p>
+        </div>
+      {% endif %}
+    </div>
+
   </div>
 
-</div>
-
-{% include "links.njk" %}
+  {% include "links.njk" %}
+{% endblock %}
+{% block js %}
+  <script type="module">
+    import {ImageGallery, Lightbox} from '/gallery.js'
+    window.ImageGallery = ImageGallery;
+    window.Lightbox = Lightbox;
+  </script>
 {% endblock %}

@@ -1,19 +1,29 @@
 {% extends "../layout.njk" %}
 {% block content %}
-<div class="admin_content">
-  <div class="recipe" id="{{ recipe.id }}">
-    <div class="same-line">
-      <h1>Editando receita</h1>
-      <button type="submit" form="form-delete">Deletar</button>
-      <button type="submit" form="form-put">Salvar receita</button>
+  <div class="admin_content">
+    <div class="recipe" id="{{ recipe.id }}">
+      <div class="same-line">
+        <h1>Editando receita</h1>
+        <button type="submit" form="form-delete">Deletar</button>
+        <div class="button_tooltip_container">
+          <button type="submit" form="form-put">Salvar receita</button>
+          <span class="tooltip_text">Select at least one photo</span>
+        </div>
+      </div>
+      <form id="form-delete" action="/admin/recipes?_method=DELETE" method="POST">
+        <input type="hidden" name="id" value="{{recipe.id}}">
+      </form>
+      <form id="form-put" action="/admin/recipes?_method=PUT" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="{{recipe.id}}">
+        {% include 'admin/recipes/fields.njk' %}
+      </form>
     </div>
-    <form id="form-delete" action="/admin/recipes?_method=DELETE" method="POST">
-      <input type="hidden" name="id" value={{recipe.id}}>
-    </form>
-    <form id="form-put" action="/admin/recipes?_method=PUT" method="POST">
-      <input type="hidden" name="id" value={{recipe.id}}>
-      {% include 'admin/recipes/fields.njk' %}
-    </form>
   </div>
-</div>
+{% endblock %}
+{% block js %}
+  <script src = "/recipe_scripts.js"></script>
+  <script type="module">
+    import {PhotosUpload} from '/PhotosUpload.js'
+    window.PhotosUpload = PhotosUpload;
+  </script>
 {% endblock %}

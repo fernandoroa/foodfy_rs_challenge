@@ -2,7 +2,7 @@
 <html>
   <head>
     {% block head %}
-    <title>Foodfy</title>
+      <title>Foodfy</title>
     {% endblock %}
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/styles.css">
@@ -10,28 +10,29 @@
 
   <body>
     <div class="inner-body">
-    <header>
-      <div class="links">
-        <div class="logo">
-          <a href="/index">
+      <header>
+        <div class="links">
+          <div class="logo">
+            <a href="/index">
               <img src="/foodassets/logo.png">
-          </a>
+            </a>
+          </div>
+          <a href="/about" id="about_id">Sobre</a>
+          <a href="/recipes">Receitas</a>
+          <a href="/chefs">Chefs</a>
+          <div class="filter_container">
+            {% block filter%}{% endblock%}
+          </div>
         </div>
-        <a href="/about" id = "about_id" >Sobre</a>
-        <a href="/recipes" id = "recipes_id" >Receitas</a>
-        <a href="/chefs" id = "chefs_id" >Chefs</a>
-        <div class = "filter_container">
-          {% block filter%}{% endblock%}
-        </div>
-      </div>
-    </header>
+      </header>
 
-    {% block content %}{% endblock %}
+      {% block content %}{% endblock %}
 
-    <footer>
-      <p>Todos os direitos reservados, receitas Foodfy.</p>
-    </footer>
+      <footer>
+        <p>Todos os direitos reservados, receitas Foodfy.</p>
+      </footer>
     </div>
     <script src="/scripts.js"></script>
+    {% block js %}{% endblock %}
   </body>
 </html>

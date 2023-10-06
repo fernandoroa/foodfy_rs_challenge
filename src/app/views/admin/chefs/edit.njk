@@ -1,19 +1,25 @@
 {% extends "../layout.njk" %}
 {% block content %}
-<div class="admin_content">
-  <div class="chef" id="{{ chef.id }}">
-    <div class="same-line">
-      <h1>Editando Chef</h1>
-      <button type="submit" form="form-delete">Deletar</button>
-      <button type="submit" form="form-put">Salvar Chef</button>
+  <div class="admin_content">
+    <div class="chef" id="{{ chef.id }}">
+      <div class="same-line">
+        <h1>Editando Chef</h1>
+        <button type="submit" form="form-delete">Deletar</button>
+        <button type="submit" form="form-put">Salvar Chef</button>
+      </div>
+      <form id="form-delete" action="/admin/chefs?_method=DELETE" method="POST">
+        <input type="hidden" name="id" value="{{chef.id}}">
+      </form>
+      <form id="form-put" action="/admin/chefs?_method=PUT" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="{{chef.id}}">
+        {% include 'admin/chefs/fields.njk' %}
+      </form>
     </div>
-    <form id="form-delete" action="/admin/chefs?_method=DELETE" method="POST">
-      <input type="hidden" name="id" value={{chef.id}}>
-    </form>
-    <form id="form-put" action="/admin/chefs?_method=PUT" method="POST">
-      <input type="hidden" name="id" value={{chef.id}}>
-      {% include 'admin/chefs/fields.njk' %}
-    </form>
   </div>
-</div>
+{% endblock %}
+{% block js %}
+  <script type="module">
+    import {ChefPhotoUpload} from '/ChefPhotoUpload.js'
+    window.ChefPhotoUpload = ChefPhotoUpload;
+  </script>
 {% endblock %}

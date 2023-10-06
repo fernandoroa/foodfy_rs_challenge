@@ -3,6 +3,16 @@
   <input type="text" name="name" placeholder="Nome do Chef" value="{{ chef.name }}">
 </div>
 <div class="chef__section" id="avatar_url">
-  <h2>Avatar url</h2>
-  <input type="text" name="avatar_url" placeholder="http://" value="{{ chef.avatar_url }}">
+  <h2>Avatar</h2>
+  <div id="chef-photo-upload">
+    <input id="chef-photo-input" type="file" name="chef-photo" accept="image/*" onchange="ChefPhotoUpload.handleSingleFileInput(event)">
+    <p>Selecione 1 Arquivo</p>
+  </div>
+  <div id="chef-photo-preview">
+    {% if image %}
+      <div class="photo" id="{{image.id}}">
+        <img src="{{image.src}}" alt="{{image.name}}">
+      </div>
+    {% endif %}
+  </div>
 </div>

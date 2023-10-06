@@ -74,13 +74,7 @@ module.exports = {
     return db.any(query, values);
   },
   delete(id, callback) {
-    db.any(`DELETE FROM chefs WHERE id = $1`, [id])
-    .then(() => {
-      callback();
-    })
-    .catch(error => {
-      console.log("error:", error);
-    });
+    return db.any(`DELETE FROM chefs WHERE id = $1`, [id]);
   },
   findBy(id, callback) {
     db.any(
@@ -113,7 +107,7 @@ module.exports = {
   files(id) {
     return db.any(
       `
-    SELECT files.name, files.path, files.id AS file_id FROM chefs
+    SELECT chefs.id AS chefs_id, files.name, files.path, files.id AS file_id FROM chefs
     LEFT JOIN files ON (chefs.file_id = files.id)
     WHERE chefs.id = $1;
     `,

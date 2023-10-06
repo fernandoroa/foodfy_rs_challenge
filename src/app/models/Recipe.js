@@ -58,7 +58,7 @@ module.exports = {
     return db.any(query, values);
   },
   delete(id) {
-    return db.any(`DELETE FROM recipes WHERE id = $1`, [id])
+    return db.any(`DELETE FROM recipes WHERE id = $1`, [id]);
   },
   chefsSelectOptions() {
     return db.any(`SELECT name, id FROM chefs`);
@@ -121,7 +121,7 @@ module.exports = {
   files(id) {
     return db.any(
       `
-    SELECT files.name, files.path, recipe_id, files.id AS file_id FROM recipe_files
+    SELECT recipe_id, files.name, files.path, files.id AS file_id FROM recipe_files
     LEFT JOIN files ON (recipe_files.file_id = files.id)
     WHERE recipe_id = $1;
     `,

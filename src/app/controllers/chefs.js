@@ -122,10 +122,14 @@ module.exports = {
     // return res.redirect(`/chefs/${req.body.id}`);
     return res.redirect(`/admin/chefs/${req.body.id}/edit`);
   },
-  delete(req, res) {
-    Chef.delete(req.body.id, function () {
-      return res.redirect(`/chefs`);
-    });
+  async delete(req, res) {
+    let files = await Chef.files(req.body.id);
+    await Chef.delete(req.body.id);
+    if (files[0].file_id != null) {
+      const file_to_remove_id = await files[0].file_id;
+      await File.delete(file_to_remove_id);
+    }
+    return res.redirect(`/chefs`);
   },
   show(req, res) {
     const id = req.params.id;

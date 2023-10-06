@@ -2,11 +2,11 @@ const Recipe = require("../models/Recipe");
 const File = require("../models/File");
 
 module.exports = {
-  async main(req, res) {
+  async handle_main_list_index__render_path(req, res, default_limit, path) {
     let { filter, page, limit } = req.query;
 
     page = page || 1;
-    limit = limit || 3;
+    limit = limit || default_limit;
     let offset = limit * (page - 1);
 
     const params = {
@@ -41,48 +41,18 @@ module.exports = {
       page,
     };
 
-    return res.render("index", { recipes, pagination, filter });
+    return res.render(path, { recipes, pagination, filter });
   },
-  async list(req, res) {
-    let { filter, page, limit } = req.query;
-
-    page = page || 1;
-    limit = limit || 3;
-    let offset = limit * (page - 1);
-
-    const params = {
-      filter,
-      limit,
-      offset,
-    };
-
-    let recipes = await Recipe.paginate(params);
-    recipes = recipes[1];
-    let status = recipes[0].status;
-    let recipes_total = recipes[0].total || 1;
-    let id_array = recipes.map((obj) => obj.id);
-
-    let files = await Recipe.all_files(id_array);
-    files = files.map((file) => ({
-      ...file,
-      src: `${req.protocol}://${req.headers.host}${file.path.replace(
-        "public",
-        ""
-      )}`,
-    }));
-
-    recipes = recipes.map((item) => ({
-      ...item,
-      ...files.find((elem) => elem.recipe_id == item.id),
-    }));
-
-    const pagination = {
-      status: status,
-      total: Math.ceil(recipes_total / limit),
-      page,
-    };
-
-    return res.render("recipes/recipes", { recipes, pagination, filter });
+  main(req, res) {
+    module.exports.handle_main_list_index__render_path(req, res, 3, "index");
+  },
+  list(req, res) {
+    module.exports.handle_main_list_index__render_path(
+      req,
+      res,
+      3,
+      "recipes/recipes"
+    );
   },
   about(req, res) {
     const about = {
@@ -112,46 +82,13 @@ module.exports = {
 
     return res.render("recipes/display", { recipe, files });
   },
-  async index(req, res) {
-    let { filter, page, limit } = req.query;
-
-    page = page || 1;
-    limit = limit || 4;
-    let offset = limit * (page - 1);
-
-    const params = {
-      filter,
-      limit,
-      offset,
-    };
-
-    let recipes = await Recipe.paginate(params);
-    recipes = recipes[1];
-    let status = recipes[0].status;
-    let recipes_total = recipes[0].total || 1;
-    let id_array = recipes.map((obj) => obj.id);
-
-    let files = await Recipe.all_files(id_array);
-    files = files.map((file) => ({
-      ...file,
-      src: `${req.protocol}://${req.headers.host}${file.path.replace(
-        "public",
-        ""
-      )}`,
-    }));
-
-    recipes = recipes.map((item) => ({
-      ...item,
-      ...files.find((elem) => elem.recipe_id == item.id),
-    }));
-
-    const pagination = {
-      status: status,
-      total: Math.ceil(recipes_total / limit),
-      page,
-    };
-
-    return res.render("admin/recipes/index", { recipes, pagination, filter });
+  index(req, res) {
+    module.exports.handle_main_list_index__render_path(
+      req,
+      res,
+      4,
+      "admin/recipes/index"
+    );
   },
   async create(req, res) {
     let options = await Recipe.chefsSelectOptions();

@@ -67,26 +67,60 @@ module.exports = {
     let results = await Chef.create(params);
     const ChefId = await results[0].id;
 
-    return res.redirect(`/chefs/${ChefId}`);
+    // return res.redirect(`/chefs/${ChefId}`);
+    return res.redirect(`/admin/chefs/${ChefId}/edit`);
   },
-  edit(req, res) {
-    Chef.find(req.params.id, function (chef) {
-      if (!chef) return res.send("Missing chef");
+  async edit(req, res) {
+    let results = await Chef.find(req.params.id);
 
-      return res.render("admin/chefs/edit", { chef });
-    });
-  },
-  put(req, res) {
-    const keys = Object.keys(req.body)
-  
-    for (key of keys) {
-      if (req.body[key]=="")
-        return res.send("please fill all fields")
+    const chef = await results[0];
+    if (!chef) return res.send("Missing chef - edit");
+
+    let files = await Chef.files(chef.id);
+
+    let image = files[0];
+    if (image.path != null) {
+      image.src = `${req.protocol}://${req.headers.host}${image.path.replace(
+        "public",
+        ""
+      )}`;
     }
 
-    Chef.update(req.body, function () {
-      return res.redirect(`/chefs/${req.body.id}`);
+    return res.render("admin/chefs/edit", {
+      chef,
+      image,
     });
+  },
+  async put(req, res) {
+    const keys = Object.keys(req.body);
+
+    for (let key of keys) {
+      if (req.body[key] == "") return res.send("please fill all fields");
+    }
+
+    let results = await Chef.find(req.body.id);
+    let file_to_remove_id = await results[0].file_id;
+
+    if (req.files.length != 0) {
+      let file = req.files[0];
+      const file_res = await File.create({ ...file });
+      let file_id = file_res[0].id;
+      const params = {
+        file_id,
+        name: req.body.name,
+        id: req.body.id,
+      };
+      await Chef.update(params);
+      await File.delete(file_to_remove_id);
+    } else {
+      const params = {
+        name: req.body.name,
+        id: req.body.id,
+      };
+      await Chef.update_no_file(params);
+    }
+    // return res.redirect(`/chefs/${req.body.id}`);
+    return res.redirect(`/admin/chefs/${req.body.id}/edit`);
   },
   delete(req, res) {
     Chef.delete(req.body.id, function () {

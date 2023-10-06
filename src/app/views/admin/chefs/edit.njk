@@ -10,10 +10,16 @@
       <form id="form-delete" action="/admin/chefs?_method=DELETE" method="POST">
         <input type="hidden" name="id" value="{{chef.id}}">
       </form>
-      <form id="form-put" action="/admin/chefs?_method=PUT" method="POST">
+      <form id="form-put" action="/admin/chefs?_method=PUT" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="id" value="{{chef.id}}">
         {% include 'admin/chefs/fields.njk' %}
       </form>
     </div>
   </div>
+{% endblock %}
+{% block js %}
+  <script type="module">
+    import {ChefPhotoUpload} from '/ChefPhotoUpload.js'
+    window.ChefPhotoUpload = ChefPhotoUpload;
+  </script>
 {% endblock %}

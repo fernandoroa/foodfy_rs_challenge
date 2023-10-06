@@ -42,38 +42,36 @@ module.exports = {
 
     return db.any(query, values);
   },
-  find(id, callback) {
+  find(id) {
     const query = `
     SELECT chefs.*
     FROM chefs
     WHERE chefs.id = $1`;
 
-    db.any(query, [+id])
-    .then(result => {
-      callback(result[0]);
-    })
-    .catch(error => {
-      console.log("error:", error);
-    });
+    return db.any(query, [id]);
   },
-  update(data, callback) {
+  update(params) {
+    const { file_id, name, id } = params;
     const query = `
       UPDATE chefs
       SET 
-      avatar_url=($1),
+      file_id=($1),
       name=($2)
       WHERE id = $3
     `;
-
-    const values = [data.avatar_url, data.name, +data.id];
-
-    db.any(query, values)
-    .then(() => {
-      callback();
-    })
-    .catch(error => {
-      console.log("error:", error);
-    });
+    const values = [file_id, name, id];
+    return db.any(query, values);
+  },
+  update_no_file(params) {
+    const { name, id } = params;
+    const query = `
+      UPDATE chefs
+      SET 
+      name=($1)
+      WHERE id = $2
+    `;
+    const values = [name, id];
+    return db.any(query, values);
   },
   delete(id, callback) {
     db.any(`DELETE FROM chefs WHERE id = $1`, [id])
@@ -111,5 +109,15 @@ module.exports = {
     .catch(error => {
       console.log("error:", error);
     });
+  },
+  files(id) {
+    return db.any(
+      `
+    SELECT files.name, files.path, files.id AS file_id FROM chefs
+    LEFT JOIN files ON (chefs.file_id = files.id)
+    WHERE chefs.id = $1;
+    `,
+      [id]
+    );
   },
 };

@@ -78,6 +78,23 @@ https://github.com/rocketseat-education/bootcamp-launchbase-desafios-05/blob/mas
   https://raw.githubusercontent.com/rocketseat-education/bootcamp-launchbase-desafios-05/master/layouts/site/index.html  
   into: https://raw.githack.com/
 
+### ***Fifth Challenge*** (portuguese):
+
+Source: https://github.com/rocketseat-education/bootcamp-launchbase-desafios-07/blob/master/desafios/07-foodfy-envio-imagens.md
+
+#### Summary
+
+* Files: Create in the PostgreSQL database a table: `files [id, name, path]` to get images paths
+* Files -> Recipes: Create relationship table `recipe_files[id, recipe_id -> recipes(id), file_id -> files(id)]`
+* Recipes Create/Edit: add photos to recipes pages, removing previous `image` field, creating new field to upload images and adding a limit of 5 photos and minimum of one
+* Chefs: Remove the image url field (`avatar_url`) from `chefs` table.
+* Files -> Chefs: Create relationship `chefs[file_id -> files(id) ...]`
+* Show Page: Add a gallery to show all the photos of the recipe
+* Use async/await
+
+* Modify `recipes` pages: *details*, *creation*, *edition*, to show/upload photos, as in: [index.html](https://raw.githack.com/rocketseat-education/bootcamp-launchbase-desafios-07/master/layouts/index.html)
+* Modify `chef` pages: *creation*, *edition*, to upload photos, as in: [index.html](https://raw.githack.com/rocketseat-education/bootcamp-launchbase-desafios-07/master/layouts/index.html)
+
 #### How to run 
 
 - docker

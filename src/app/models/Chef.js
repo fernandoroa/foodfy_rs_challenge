@@ -1,4 +1,3 @@
-const { date } = require("../../lib/utils");
 const { db } = require("../../config/db");
 
 module.exports = {
@@ -27,13 +26,12 @@ module.exports = {
     const query = `
       INSERT INTO chefs (
         file_id,
-        name,
-        created_at
-      ) VALUES ($1, $2, $3)
+        name
+      ) VALUES ($1, $2)
       RETURNING id
     `;
 
-    const values = [file_id, name, date(Date.now()).iso];
+    const values = [file_id, name];
 
     return db.any(query, values);
   },
@@ -75,7 +73,7 @@ module.exports = {
     return db.any(
       `
       WITH chef_recipes AS (
-        SELECT chefs.id AS chefs_id, chefs.name AS chefs_name, recipes.title, recipes.id AS recipe_id
+        SELECT chefs.id AS chefs_id, chefs.name AS chefs_name, recipes.title, recipes.id AS recipe_id, recipes.created_at
         FROM chefs
         LEFT JOIN recipes ON (recipes.chef_id = chefs.id) 
         WHERE chefs.id = $1
@@ -90,6 +88,7 @@ module.exports = {
       )
       select * from chef_recipes
       left join total_recipes_per_chef on chef_recipes.chefs_id = total_recipes_per_chef.chefs_id
+      ORDER BY chef_recipes.created_at DESC
     `,
       [id]
     )

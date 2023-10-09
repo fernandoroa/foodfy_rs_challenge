@@ -1,4 +1,3 @@
-const { date } = require("../../lib/utils");
 const { db } = require("../../config/db");
 
 module.exports = {
@@ -27,13 +26,12 @@ module.exports = {
     const query = `
       INSERT INTO chefs (
         file_id,
-        name,
-        created_at
-      ) VALUES ($1, $2, $3)
+        name
+      ) VALUES ($1, $2)
       RETURNING id
     `;
 
-    const values = [file_id, name, date(Date.now()).iso];
+    const values = [file_id, name];
 
     return db.any(query, values);
   },

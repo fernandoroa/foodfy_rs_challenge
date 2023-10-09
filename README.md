@@ -4,23 +4,15 @@ All challenges relate to building a site of cooking recipes and related chefs.
 
 Branch names correspond to those challenges. Check also [previous_challenges.md](previous_challenges.md)
 
-### ***Fifth Challenge*** (portuguese):
+### ***Sixth Challenge*** (portuguese):
 
-Source: https://github.com/rocketseat-education/bootcamp-launchbase-desafios-07/blob/master/desafios/07-foodfy-envio-imagens.md
+Source: https://github.com/rocketseat-education/bootcamp-launchbase-desafios-08/blob/master/desafios/08-apresentacao-organizacao-receitas-foodfy.md
 
 #### Summary
 
-* Files: Create in the PostgreSQL database a table: `files [id, name, path]` to get images paths
-* Files -> Recipes: Create relationship table `recipe_files[id, recipe_id -> recipes(id), file_id -> files(id)]`
-* Recipes Create/Edit: add photos to recipes pages, removing previous `image` field, creating new field to upload images and adding a limit of 5 photos and minimum of one
-* Chefs: Remove the image url field (`avatar_url`) from `chefs` table.
-* Files -> Chefs: Create relationship `chefs[file_id -> files(id) ...]`
-* Show Page: Add a gallery to show all the photos of the recipe
-* Use async/await
-
-* Modify `recipes` pages: *details*, *creation*, *edition*, to show/upload photos, as in: [index.html](https://raw.githack.com/rocketseat-education/bootcamp-launchbase-desafios-07/master/layouts/index.html)
-* Modify `chef` pages: *creation*, *edition*, to upload photos, as in: [index.html](https://raw.githack.com/rocketseat-education/bootcamp-launchbase-desafios-07/master/layouts/index.html)
-
+* Recipes in the listings page and in Chef's page should be ordered by `created_at` timestamp (desc)
+* For the pages showing search results, ordering should be done by the new column `updated_at` timestamp
+* Database field values for `created_at` and `updated_at` are now handled by the database default value `now()` and database triggers, for auto-updating those fields
 
 ### How to run 
 

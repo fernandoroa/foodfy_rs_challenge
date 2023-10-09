@@ -28,7 +28,8 @@ module.exports = {
     SELECT recipes.*, chefs.name AS chef_name
     FROM recipes
     LEFT JOIN chefs ON (recipes.chef_id = chefs.id)
-    WHERE recipes.id = $1`;
+    WHERE recipes.id = $1
+    ORDER BY created_at DESC`;
 
     return db.any(query, [+id]);
   },
@@ -68,6 +69,7 @@ module.exports = {
       totalQueryOrig = (totalQuery = `(
           SELECT count(*) FROM recipes 
         )`);
+    let sorter_column = "created_at";
 
     if (filter) {
       filterQuery = `
@@ -79,12 +81,13 @@ module.exports = {
         LEFT JOIN chefs ON (recipes.chef_id = chefs.id)
         ${filterQuery}
       )`;
+      sorter_column = "updated_at";
     }
 
     query = `
     create or replace function get_all_data_if_filter_returns_nothing()
       returns table(id int, chef_id int, title text, ingredients text[], preparation text[], information text,
-        created_at timestamp, chef_name text, total bigint, status text)
+        created_at timestamp, updated_at timestamp, chef_name text, total bigint, status text)
     language plpgsql
     as
     $_$
@@ -96,7 +99,7 @@ module.exports = {
       FROM recipes
       LEFT JOIN chefs ON (recipes.chef_id = chefs.id)
       ${filterQuery}
-      ORDER BY recipes.title
+      ORDER BY ${sorter_column} DESC
       LIMIT $1 OFFSET $2;
 
       IF FOUND THEN return; end if;
@@ -106,7 +109,7 @@ module.exports = {
       'no_filter' AS status
       FROM recipes
       LEFT JOIN chefs ON (recipes.chef_id = chefs.id)
-      ORDER BY recipes.title
+      ORDER BY ${sorter_column} DESC
       LIMIT $1 OFFSET $2;
     end;
     $_$;

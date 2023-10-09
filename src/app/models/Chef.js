@@ -73,7 +73,7 @@ module.exports = {
     return db.any(
       `
       WITH chef_recipes AS (
-        SELECT chefs.id AS chefs_id, chefs.name AS chefs_name, recipes.title, recipes.id AS recipe_id
+        SELECT chefs.id AS chefs_id, chefs.name AS chefs_name, recipes.title, recipes.id AS recipe_id, recipes.created_at
         FROM chefs
         LEFT JOIN recipes ON (recipes.chef_id = chefs.id) 
         WHERE chefs.id = $1
@@ -88,6 +88,7 @@ module.exports = {
       )
       select * from chef_recipes
       left join total_recipes_per_chef on chef_recipes.chefs_id = total_recipes_per_chef.chefs_id
+      ORDER BY chef_recipes.created_at DESC
     `,
       [id]
     )
